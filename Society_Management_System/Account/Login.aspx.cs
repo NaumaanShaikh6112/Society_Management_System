@@ -115,7 +115,8 @@ namespace Society_Management_System.Account
             }
             catch (Exception ex)
             {
-                Trace.TraceWarning("Audit logging failed: " + ex);
+                System.Diagnostics.Trace.TraceError("Login error: " + ex);
+                System.Diagnostics.Trace.TraceWarning("Audit logging failed: " + ex);
             }
         }
     }

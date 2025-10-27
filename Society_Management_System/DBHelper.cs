@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 
-namespace Society_Management_System.App_Code
+namespace Society_Management_System
 {
     /// <summary>
     /// Database Helper class for executing queries and managing connections
