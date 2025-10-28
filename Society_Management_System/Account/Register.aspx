@@ -159,6 +159,12 @@
                 color: #fff;
             }
 
+            select.form-control option {
+    background: #9285CD;
+    color: #fff;
+}
+
+
             .form-control:focus, .form-select:focus {
                 background: rgba(255, 255, 255, 0.15);
                 border-color: rgba(255, 255, 255, 0.5);
