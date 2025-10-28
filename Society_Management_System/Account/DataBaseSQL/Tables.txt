@@ -1,0 +1,273 @@
+﻿CREATE DATABASE societyDB;
+GO
+
+USE societyDB;
+GO
+
+CREATE TABLE societies (
+  society_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  name VARCHAR(150) NOT NULL UNIQUE,
+  address_line1 VARCHAR(200) NOT NULL,
+  address_line2 VARCHAR(200),
+  city VARCHAR(80) NOT NULL,
+  state VARCHAR(80) NOT NULL,
+  pincode VARCHAR(10) NOT NULL,
+  created_at DATETIME DEFAULT GETDATE(),
+  updated_at DATETIME
+);
+
+CREATE TABLE buildings (
+  building_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  society_id BIGINT,
+  name VARCHAR(100) NOT NULL,
+  floors INT NOT NULL,
+  created_at DATETIME DEFAULT GETDATE(),
+  FOREIGN KEY (society_id) REFERENCES societies(society_id)
+);
+
+CREATE TABLE units (
+  unit_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  building_id BIGINT,
+  unit_no VARCHAR(20) NOT NULL,
+  floor_no INT NOT NULL,
+  carpet_area_sqft DECIMAL(10,2) NOT NULL,
+  is_parking_allocated BIT NOT NULL DEFAULT 0,
+  FOREIGN KEY (building_id) REFERENCES buildings(building_id)
+);
+
+CREATE TABLE members (
+  member_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  society_id BIGINT,
+  full_name VARCHAR(120) NOT NULL,
+  email VARCHAR(150) UNIQUE,
+  phone VARCHAR(20),
+  status VARCHAR(20) NOT NULL DEFAULT 'Active',
+  created_at DATETIME DEFAULT GETDATE(),
+  FOREIGN KEY (society_id) REFERENCES societies(society_id)
+);
+
+CREATE TABLE unit_occupancies (
+  occupancy_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  unit_id BIGINT,
+  member_id BIGINT,
+  type VARCHAR(20) NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE,
+  FOREIGN KEY (unit_id) REFERENCES units(unit_id),
+  FOREIGN KEY (member_id) REFERENCES members(member_id)
+);
+
+CREATE TABLE users (
+  user_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  member_id BIGINT,
+  username VARCHAR(80) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  is_active BIT NOT NULL DEFAULT 1,
+  last_login_at DATETIME,
+  FOREIGN KEY (member_id) REFERENCES members(member_id)
+);
+
+CREATE TABLE roles (
+  role_id INT IDENTITY(1,1) PRIMARY KEY,
+  name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE user_roles (
+  user_id BIGINT,
+  role_id INT,
+  society_id BIGINT,
+  PRIMARY KEY (user_id, role_id),
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (role_id) REFERENCES roles(role_id),
+  FOREIGN KEY (society_id) REFERENCES societies(society_id)
+);
+
+CREATE TABLE vehicles (
+  vehicle_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  member_id BIGINT,
+  unit_id BIGINT,
+  registration_no VARCHAR(20) NOT NULL UNIQUE,
+  type VARCHAR(20) NOT NULL,
+  FOREIGN KEY (member_id) REFERENCES members(member_id),
+  FOREIGN KEY (unit_id) REFERENCES units(unit_id)
+);
+
+CREATE TABLE parking_slots (
+  slot_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  society_id BIGINT,
+  identifier VARCHAR(30) NOT NULL UNIQUE,
+  is_covered BIT NOT NULL DEFAULT 0,
+  FOREIGN KEY (society_id) REFERENCES societies(society_id)
+);
+
+CREATE TABLE parking_assignments (
+  assignment_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  slot_id BIGINT,
+  vehicle_id BIGINT,
+  start_date DATE NOT NULL,
+  end_date DATE,
+  FOREIGN KEY (slot_id) REFERENCES parking_slots(slot_id),
+  FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id)
+);
+
+CREATE TABLE maintenance_bills (
+  bill_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  society_id BIGINT,
+  unit_id BIGINT,
+  bill_month DATE NOT NULL,
+  due_date DATE NOT NULL,
+  total_amount DECIMAL(12,2) NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'Unpaid',
+  FOREIGN KEY (society_id) REFERENCES societies(society_id),
+  FOREIGN KEY (unit_id) REFERENCES units(unit_id)
+);
+
+CREATE TABLE bill_items (
+  item_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  bill_id BIGINT,
+  description VARCHAR(150) NOT NULL,
+  amount DECIMAL(12,2) NOT NULL,
+  FOREIGN KEY (bill_id) REFERENCES maintenance_bills(bill_id)
+);
+
+CREATE TABLE payments (
+  payment_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  bill_id BIGINT,
+  paid_on DATETIME NOT NULL,
+  amount DECIMAL(12,2) NOT NULL,
+  mode VARCHAR(30) NOT NULL,
+  reference_no VARCHAR(100) UNIQUE,
+  FOREIGN KEY (bill_id) REFERENCES maintenance_bills(bill_id)
+);
+
+CREATE TABLE vendors (
+  vendor_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  phone VARCHAR(20),
+  email VARCHAR(150)
+);
+
+CREATE TABLE expenses (
+  expense_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  society_id BIGINT,
+  vendor_id BIGINT,
+  expense_date DATE NOT NULL,
+  category VARCHAR(50) NOT NULL,
+  amount DECIMAL(12,2) NOT NULL,
+  notes VARCHAR(200),
+  FOREIGN KEY (society_id) REFERENCES societies(society_id),
+  FOREIGN KEY (vendor_id) REFERENCES vendors(vendor_id)
+);
+
+CREATE TABLE complaints (
+  complaint_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  society_id BIGINT,
+  raised_by_user_id BIGINT,
+  unit_id BIGINT,
+  category VARCHAR(50) NOT NULL,
+  title VARCHAR(150) NOT NULL,
+  description TEXT,
+  status VARCHAR(20) NOT NULL DEFAULT 'Open',
+  created_at DATETIME DEFAULT GETDATE(),
+  FOREIGN KEY (society_id) REFERENCES societies(society_id),
+  FOREIGN KEY (raised_by_user_id) REFERENCES users(user_id),
+  FOREIGN KEY (unit_id) REFERENCES units(unit_id)
+);
+
+CREATE TABLE complaint_comments (
+  comment_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  complaint_id BIGINT,
+  user_id BIGINT,
+  comment TEXT NOT NULL,
+  created_at DATETIME DEFAULT GETDATE(),
+  FOREIGN KEY (complaint_id) REFERENCES complaints(complaint_id),
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE announcements (
+  announcement_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  society_id BIGINT,
+  title VARCHAR(150) NOT NULL,
+  content TEXT NOT NULL,
+  visible_from DATE NOT NULL,
+  visible_to DATE,
+  FOREIGN KEY (society_id) REFERENCES societies(society_id)
+);
+
+CREATE TABLE amenities (
+  amenity_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  society_id BIGINT,
+  name VARCHAR(80) NOT NULL,
+  booking_required BIT NOT NULL DEFAULT 0,
+  FOREIGN KEY (society_id) REFERENCES societies(society_id)
+);
+
+CREATE TABLE amenity_bookings (
+  booking_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  amenity_id BIGINT,
+  user_id BIGINT,
+  start_time DATETIME NOT NULL,
+  end_time DATETIME NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'Booked',
+  FOREIGN KEY (amenity_id) REFERENCES amenities(amenity_id),
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE gate_logs (
+  gate_log_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  society_id BIGINT,
+  visitor_name VARCHAR(120) NOT NULL,
+  vehicle_no VARCHAR(20),
+  purpose VARCHAR(80),
+  unit_id BIGINT,
+  check_in DATETIME NOT NULL,
+  check_out DATETIME,
+  FOREIGN KEY (society_id) REFERENCES societies(society_id),
+  FOREIGN KEY (unit_id) REFERENCES units(unit_id)
+);
+
+CREATE TABLE documents (
+  document_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  society_id BIGINT,
+  entity_type VARCHAR(40) NOT NULL,
+  entity_id BIGINT NOT NULL,
+  file_name VARCHAR(200) NOT NULL,
+  file_path VARCHAR(300) NOT NULL,
+  uploaded_by BIGINT,
+  uploaded_at DATETIME DEFAULT GETDATE(),
+  FOREIGN KEY (society_id) REFERENCES societies(society_id),
+  FOREIGN KEY (uploaded_by) REFERENCES users(user_id)
+);
+
+CREATE TABLE meter_readings (
+  reading_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  unit_id BIGINT,
+  reading_date DATE NOT NULL,
+  rate_per_unit DECIMAL(12,4) NOT NULL,
+  reading_value DECIMAL(12,3) NOT NULL,
+  FOREIGN KEY (unit_id) REFERENCES units(unit_id)
+);
+
+CREATE TABLE utility_rates (
+  rate_id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  society_id BIGINT,
+  utility_type VARCHAR(30) NOT NULL,
+  rate_per_unit DECIMAL(12,4) NOT NULL,
+  effective_from DATE NOT NULL,
+FOREIGN KEY (society_id) REFERENCES societies(society_id) 
+);
+
+CREATE TABLE audit_logs ( 
+audit_id BIGINT IDENTITY(1,1) PRIMARY KEY, 
+user_id BIGINT, action VARCHAR(40) NOT NULL, 
+entity_type VARCHAR(40) NOT NULL, 
+entity_id BIGINT NOT NULL, 
+created_at DATETIME DEFAULT GETDATE(), 
+FOREIGN KEY (user_id) REFERENCES users(user_id) 
+);
+
+--ALTER TABLES 
+
+ALTER TABLE units
+ADD CONSTRAINT UQ_unit_building UNIQUE (unit_no, building_id);
+-- THIS TABLE IS ALTERED SO THAT IN EACH BUILDING UNIT NO IS UNIQUE (like A-101) allowed in different buildings, but not repeated in same building

@@ -1,0 +1,523 @@
+﻿USE societyDB;
+
+--Login Procedure no 1
+GO
+CREATE PROCEDURE UserLoginProc
+    @username VARCHAR(80),
+    @password VARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        u.user_id,
+        u.username,
+        r.name AS role
+    FROM users u
+    LEFT JOIN user_roles ur ON u.user_id = ur.user_id
+    LEFT JOIN roles r ON ur.role_id = r.role_id
+    WHERE u.username = @username
+      AND u.password_hash = @password
+      AND u.is_active = 1;
+END
+GO
+
+--Can expand later with vehicles, complaints, etc. Register Procedure no 2
+GO
+CREATE PROCEDURE sp_RegisterUser
+    @full_name NVARCHAR(120),
+    @email NVARCHAR(150),
+    @phone NVARCHAR(20),
+    @username NVARCHAR(80),
+    @password_hash NVARCHAR(255),
+    @society_id BIGINT,
+    @role_id INT,
+    @building_id BIGINT,
+    @unit_no NVARCHAR(20),
+    @occupancy_type NVARCHAR(20)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRAN;
+
+        DECLARE @member_id BIGINT, @unit_id BIGINT, @user_id BIGINT;
+
+        -- 🔹 1. Get the unit_id based on unit_no and building_id
+        SELECT @unit_id = unit_id 
+        FROM units 
+        WHERE unit_no = @unit_no AND building_id = @building_id;
+
+        IF @unit_id IS NULL
+        BEGIN
+            THROW 51000, 'Invalid Unit selected.', 1;
+        END
+
+        -- 🔹 2. Insert into members table
+        INSERT INTO members (society_id, full_name, email, phone)
+        VALUES (@society_id, @full_name, @email, @phone);
+
+        SET @member_id = SCOPE_IDENTITY();
+
+        -- 🔹 3. Insert into users table
+        INSERT INTO users (member_id, username, password_hash)
+        VALUES (@member_id, @username, @password_hash);
+
+        SET @user_id = SCOPE_IDENTITY();
+
+        -- 🔹 4. Assign role (Member = 2 by default)
+        INSERT INTO user_roles (user_id, role_id, society_id)
+        VALUES (@user_id, @role_id, @society_id);
+
+        -- 🔹 5. Insert occupancy info
+        INSERT INTO unit_occupancies (unit_id, member_id, type, start_date)
+        VALUES (@unit_id, @member_id, @occupancy_type, GETDATE());
+
+        COMMIT TRAN;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRAN;
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        THROW 51000, @ErrorMessage, 1;
+    END CATCH
+END;
+GO
+
+
+GO
+PRINT '====================================================';
+PRINT '1??  Dashboard Procedures';
+PRINT '====================================================';
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_GetAdminDashboardStats]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        (SELECT COUNT(*) FROM societies) AS TotalSocieties,
+        (SELECT COUNT(*) FROM members) AS TotalMembers,
+        (SELECT COUNT(*) FROM buildings) AS TotalBuildings,
+        (SELECT COUNT(*) FROM complaints WHERE status = 'Open') AS OpenComplaints;
+END
+GO
+
+
+PRINT '====================================================';
+PRINT '2??  Societies CRUD';
+PRINT '====================================================';
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Societies_GetAll]
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT society_id, name, city, state, pincode 
+    FROM societies 
+    ORDER BY name;
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Societies_GetByID]
+    @SocietyID BIGINT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT * FROM societies WHERE society_id = @SocietyID;
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Societies_Insert]
+    @Name VARCHAR(150),
+    @Address1 VARCHAR(200),
+    @Address2 VARCHAR(200),
+    @City VARCHAR(80),
+    @State VARCHAR(80),
+    @Pincode VARCHAR(10)
+AS
+BEGIN
+    INSERT INTO societies (name, address_line1, address_line2, city, state, pincode, created_at)
+    VALUES (@Name, @Address1, @Address2, @City, @State, @Pincode, GETDATE());
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Societies_Update]
+    @SocietyID BIGINT,
+    @Name VARCHAR(150),
+    @Address1 VARCHAR(200),
+    @Address2 VARCHAR(200),
+    @City VARCHAR(80),
+    @State VARCHAR(80),
+    @Pincode VARCHAR(10)
+AS
+BEGIN
+    UPDATE societies
+    SET 
+        name = @Name,
+        address_line1 = @Address1,
+        address_line2 = @Address2,
+        city = @City,
+        state = @State,
+        pincode = @Pincode,
+        updated_at = GETDATE()
+    WHERE society_id = @SocietyID;
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Societies_Delete]
+    @SocietyID BIGINT
+AS
+BEGIN
+    DELETE FROM societies WHERE society_id = @SocietyID;
+END
+GO
+
+
+PRINT '====================================================';
+PRINT '3??  Buildings CRUD';
+PRINT '====================================================';
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Buildings_GetBySocietyID]
+    @SocietyID BIGINT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT building_id, name, floors 
+    FROM buildings 
+    WHERE society_id = @SocietyID 
+    ORDER BY name;
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Buildings_Insert]
+    @SocietyID BIGINT,
+    @Name VARCHAR(100),
+    @Floors INT
+AS
+BEGIN
+    INSERT INTO buildings (society_id, name, floors, created_at)
+    VALUES (@SocietyID, @Name, @Floors, GETDATE());
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Buildings_Update]
+    @BuildingID BIGINT,
+    @Name VARCHAR(100),
+    @Floors INT
+AS
+BEGIN
+    UPDATE buildings
+    SET 
+        name = @Name,
+        floors = @Floors
+    WHERE building_id = @BuildingID;
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Buildings_Delete]
+    @BuildingID BIGINT
+AS
+BEGIN
+    DELETE FROM buildings WHERE building_id = @BuildingID;
+END
+GO
+
+
+PRINT '====================================================';
+PRINT '4??  Units CRUD';
+PRINT '====================================================';
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Units_GetByBuildingID]
+    @BuildingID BIGINT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT unit_id, unit_no, floor_no, carpet_area_sqft, is_parking_allocated 
+    FROM units 
+    WHERE building_id = @BuildingID 
+    ORDER BY floor_no, unit_no;
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Units_Insert]
+    @BuildingID BIGINT,
+    @UnitNo VARCHAR(20),
+    @FloorNo INT,
+    @CarpetArea DECIMAL(10,2),
+    @IsParking BIT
+AS
+BEGIN
+    BEGIN TRY
+        INSERT INTO units (building_id, unit_no, floor_no, carpet_area_sqft, is_parking_allocated)
+        VALUES (@BuildingID, @UnitNo, @FloorNo, @CarpetArea, @IsParking);
+    END TRY
+    BEGIN CATCH
+        DECLARE @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
+        RAISERROR(@ErrMsg, 16, 1);
+    END CATCH
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Units_Update]
+    @UnitID BIGINT,
+    @UnitNo VARCHAR(20),
+    @FloorNo INT,
+    @CarpetArea DECIMAL(10,2),
+    @IsParking BIT
+AS
+BEGIN
+    BEGIN TRY
+        UPDATE units
+        SET 
+            unit_no = @UnitNo,
+            floor_no = @FloorNo,
+            carpet_area_sqft = @CarpetArea,
+            is_parking_allocated = @IsParking
+        WHERE unit_id = @UnitID;
+    END TRY
+    BEGIN CATCH
+        DECLARE @Err NVARCHAR(4000) = ERROR_MESSAGE();
+        RAISERROR(@Err, 16, 1);
+    END CATCH
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Units_Delete]
+    @UnitID BIGINT
+AS
+BEGIN
+    DELETE FROM units WHERE unit_id = @UnitID;
+END
+GO
+
+
+PRINT '====================================================';
+PRINT '5??  Members CRUD';
+PRINT '====================================================';
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Members_GetBySocietyID]
+    @SocietyID BIGINT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT member_id, full_name, email, phone, status 
+    FROM members 
+    WHERE society_id = @SocietyID 
+    ORDER BY full_name;
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Members_GetByID]
+    @MemberID BIGINT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT * FROM members WHERE member_id = @MemberID;
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Members_Insert]
+    @SocietyID BIGINT,
+    @FullName VARCHAR(120),
+    @Email VARCHAR(150),
+    @Phone VARCHAR(20),
+    @Status VARCHAR(20)
+AS
+BEGIN
+    INSERT INTO members (society_id, full_name, email, phone, status, created_at)
+    VALUES (@SocietyID, @FullName, @Email, @Phone, @Status, GETDATE());
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Members_Update]
+    @MemberID BIGINT,
+    @FullName VARCHAR(120),
+    @Email VARCHAR(150),
+    @Phone VARCHAR(20),
+    @Status VARCHAR(20)
+AS
+BEGIN
+    UPDATE members
+    SET 
+        full_name = @FullName,
+        email = @Email,
+        phone = @Phone,
+        status = @Status
+    WHERE member_id = @MemberID;
+END
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Members_Delete]
+    @MemberID BIGINT
+AS
+BEGIN
+    DELETE FROM members WHERE member_id = @MemberID;
+END
+GO
+
+
+PRINT '====================================================';
+PRINT '6??  Complaints';
+PRINT '====================================================';
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[sp_Complaints_Insert]
+(
+    @SocietyID BIGINT,
+    @RaisedByUserID BIGINT,
+    @UnitID BIGINT = NULL,
+    @Category VARCHAR(50),
+    @Title VARCHAR(150),
+    @Description TEXT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO complaints 
+    (society_id, raised_by_user_id, unit_id, category, title, description, status, created_at)
+    VALUES 
+    (@SocietyID, @RaisedByUserID, @UnitID, @Category, @Title, @Description, 'Open', GETDATE());
+
+    SELECT SCOPE_IDENTITY() AS NewComplaintID;
+END
+GO
+
+PRINT '? All Procedures created successfully!';
+
+
+-- ===================================================================
+-- 1?? Get Member Name for Master Page
+-- ===================================================================
+PRINT 'Creating sp_Members_GetNameByUserID...';
+GO
+CREATE OR ALTER PROCEDURE [dbo].[sp_Members_GetNameByUserID]
+(
+    @UserID BIGINT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT m.full_name
+    FROM members m
+    INNER JOIN users u ON m.member_id = u.member_id
+    WHERE u.user_id = @UserID;
+END;
+GO
+
+-- ===================================================================
+-- 2?? Get Stats for Member Dashboard
+-- ===================================================================
+PRINT 'Creating sp_GetMemberDashboardStats...';
+GO
+CREATE OR ALTER PROCEDURE [dbo].[sp_GetMemberDashboardStats]
+(
+    @UserID BIGINT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @MemberID BIGINT;
+    SELECT @MemberID = member_id FROM users WHERE user_id = @UserID;
+
+    IF @MemberID IS NULL
+    BEGIN
+        SELECT 0 AS UnpaidBillsCount, 0 AS OpenComplaintsCount, 0 AS ActiveBookingsCount;
+        RETURN;
+    END;
+
+    DECLARE @MemberUnits TABLE (unit_id BIGINT);
+    INSERT INTO @MemberUnits (unit_id)
+    SELECT unit_id
+    FROM unit_occupancies
+    WHERE member_id = @MemberID
+      AND (end_date IS NULL OR end_date >= GETDATE());
+
+    SELECT
+        (SELECT COUNT(*)
+         FROM maintenance_bills mb
+         WHERE mb.unit_id IN (SELECT unit_id FROM @MemberUnits)
+           AND mb.status = 'Unpaid'
+        ) AS UnpaidBillsCount,
+
+        (SELECT COUNT(*)
+         FROM complaints c
+         WHERE c.raised_by_user_id = @UserID
+           AND c.status = 'Open'
+        ) AS OpenComplaintsCount,
+
+        (SELECT COUNT(*)
+         FROM amenity_bookings ab
+         WHERE ab.user_id = @UserID
+           AND ab.status = 'Booked'
+           AND ab.end_time >= GETDATE()
+        ) AS ActiveBookingsCount;
+END;
+GO
+
+-- ===================================================================
+-- 3?? Get Full Profile Details for MyProfile Page
+-- ===================================================================
+PRINT 'Creating sp_Members_GetProfileDetailsByUserID...';
+GO
+CREATE OR ALTER PROCEDURE [dbo].[sp_Members_GetProfileDetailsByUserID]
+(
+    @UserID BIGINT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT TOP 1
+        m.full_name,
+        m.email,
+        m.phone,
+        s.name AS society_name,
+        b.name AS building_name,
+        u.unit_no,
+        uo.type AS occupancy_type
+    FROM users usr
+    INNER JOIN members m ON usr.member_id = m.member_id
+    INNER JOIN societies s ON m.society_id = s.society_id
+    LEFT JOIN unit_occupancies uo
+           ON m.member_id = uo.member_id
+          AND (uo.end_date IS NULL OR uo.end_date >= GETDATE())
+    LEFT JOIN units u ON uo.unit_id = u.unit_id
+    LEFT JOIN buildings b ON u.building_id = b.building_id
+    WHERE usr.user_id = @UserID
+    ORDER BY uo.start_date DESC;
+END;
+GO
+
+PRINT '? Member Stored Procedures created successfully!';
+
+
+
+-- ✅ Show all stored procedures in current database
+SELECT name AS ProcedureName, create_date, modify_date
+FROM sys.procedures
+ORDER BY name;
+
+-- ✅ Total number of stored procedures
+SELECT COUNT(*) AS TotalProcedures
+FROM sys.procedures;
+
+-- ✅ View specific procedure definition
+EXEC sp_helptext 'sp_RegisterUser';
+
+
+SELECT 
+    name AS ProcedureName, 
+    create_date, 
+    modify_date
+FROM sys.procedures
+ORDER BY name;
+
+

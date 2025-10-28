@@ -1,0 +1,41 @@
+﻿USE societyDB;
+GO
+
+-- ✅ Disable foreign key checks
+EXEC sp_MSforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT ALL";
+
+-- ✅ Delete child tables first (to avoid FK violations)
+DELETE FROM audit_logs;
+DELETE FROM meter_readings;
+DELETE FROM documents;
+DELETE FROM gate_logs;
+DELETE FROM amenity_bookings;
+DELETE FROM amenities;
+DELETE FROM announcements;
+DELETE FROM complaint_comments;
+DELETE FROM complaints;
+DELETE FROM expenses;
+DELETE FROM vendors;
+DELETE FROM payments;
+DELETE FROM bill_items;
+DELETE FROM maintenance_bills;
+DELETE FROM parking_assignments;
+DELETE FROM parking_slots;
+DELETE FROM vehicles;
+DELETE FROM user_roles;
+DELETE FROM users;
+DELETE FROM roles;
+DELETE FROM unit_occupancies;
+DELETE FROM members;
+DELETE FROM units;
+DELETE FROM buildings;
+DELETE FROM societies;
+DELETE FROM utility_rates;
+
+-- ✅ Re-enable constraints
+EXEC sp_MSforeachtable "ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL";
+
+-- ✅ Optional reset of identity columns
+EXEC sp_MSforeachtable "DBCC CHECKIDENT ( '?', RESEED, 0)";
+
+PRINT '🎯 All dummy data deleted, identities reset, structure safe!';

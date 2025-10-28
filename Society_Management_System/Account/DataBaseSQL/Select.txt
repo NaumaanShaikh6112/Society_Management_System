@@ -1,0 +1,83 @@
+﻿-- Societies
+SELECT * FROM societies;
+
+-- Buildings
+SELECT * FROM buildings;
+
+-- Units
+SELECT * FROM units;
+
+-- Members
+SELECT * FROM members;
+
+-- Unit Occupancies
+SELECT * FROM unit_occupancies;
+
+-- Users
+SELECT * FROM users;
+
+-- Roles
+SELECT * FROM roles;
+
+-- User Roles
+SELECT * FROM user_roles;
+
+-- Vehicles
+SELECT * FROM vehicles;
+
+-- Parking Slots
+SELECT * FROM parking_slots;
+
+-- Parking Assignments
+SELECT * FROM parking_assignments;
+
+-- Maintenance Bills
+SELECT * FROM maintenance_bills;
+
+-- Bill Items
+SELECT * FROM bill_items;
+
+-- Payments
+SELECT * FROM payments;
+
+-- Vendors
+SELECT * FROM vendors;
+
+-- Expenses
+SELECT * FROM expenses;
+
+-- Complaints
+SELECT * FROM complaints;
+
+-- Complaint Comments
+SELECT * FROM complaint_comments;
+
+-- Announcements
+SELECT * FROM announcements;
+
+-- Amenities
+SELECT * FROM amenities;
+
+-- Amenity Bookings
+SELECT * FROM amenity_bookings;
+
+-- Gate Logs
+SELECT * FROM gate_logs;
+
+-- Documents
+SELECT * FROM documents;
+
+-- Meter Readings
+SELECT * FROM meter_readings;
+
+-- Utility Rates
+SELECT * FROM utility_rates;
+
+-- Audit Logs
+SELECT * FROM audit_logs;
+
+
+
+SELECT society_id, name FROM societies;
+SELECT building_id, name, society_id FROM buildings;
+SELECT unit_id, unit_no, building_id FROM units;

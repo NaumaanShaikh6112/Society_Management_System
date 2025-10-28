@@ -68,6 +68,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Account\DataBaseSQL\Insertdummy.txt" />
+    <Content Include="Account\DataBaseSQL\Reeseed.txt" />
+    <Content Include="Account\DataBaseSQL\Select.txt" />
+    <Content Include="Account\DataBaseSQL\StoreProcedures.txt" />
+    <Content Include="Account\DataBaseSQL\Tables.txt" />
     <Content Include="Account\Logout.aspx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="Admin\AdminDashboard.aspx" />

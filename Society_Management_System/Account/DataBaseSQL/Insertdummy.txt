@@ -1,0 +1,78 @@
+﻿USE societyDB;
+GO
+
+BEGIN TRANSACTION;
+BEGIN TRY
+    DECLARE @SocietyId BIGINT, @BuildingId BIGINT, @UnitId BIGINT, @MemberId BIGINT, @UserId BIGINT, @AdminRoleId INT;
+
+    -- 1️⃣ Society check
+    IF NOT EXISTS (SELECT 1 FROM societies WHERE name = 'Green Heights')
+    BEGIN
+        INSERT INTO societies (name, address_line1, city, state, pincode)
+        VALUES ('Green Heights', 'Near Lake View Road', 'Mumbai', 'Maharashtra', '400001');
+    END
+    SELECT @SocietyId = society_id FROM societies WHERE name = 'Green Heights';
+
+    -- 2️⃣ Building check
+    IF NOT EXISTS (SELECT 1 FROM buildings WHERE name = 'Tower A' AND society_id = @SocietyId)
+    BEGIN
+        INSERT INTO buildings (society_id, name, floors)
+        VALUES (@SocietyId, 'Tower A', 10);
+    END
+    SELECT @BuildingId = building_id FROM buildings WHERE name = 'Tower A' AND society_id = @SocietyId;
+
+    -- 3️⃣ Unit check
+    IF NOT EXISTS (SELECT 1 FROM units WHERE unit_no = 'A-101' AND building_id = @BuildingId)
+    BEGIN
+        INSERT INTO units (building_id, unit_no, floor_no, carpet_area_sqft)
+        VALUES (@BuildingId, 'A-101', 1, 850.00);
+    END
+    SELECT @UnitId = unit_id FROM units WHERE unit_no = 'A-101' AND building_id = @BuildingId;
+
+    -- 4️⃣ Member check
+    IF NOT EXISTS (SELECT 1 FROM members WHERE email = 'admin@society.com')
+    BEGIN
+        INSERT INTO members (society_id, full_name, email, phone)
+        VALUES (@SocietyId, 'System Admin', 'admin@society.com', '9999999999');
+    END
+    SELECT @MemberId = member_id FROM members WHERE email = 'admin@society.com';
+
+    -- 5️⃣ User check
+    IF NOT EXISTS (SELECT 1 FROM users WHERE username = 'admin')
+    BEGIN
+        INSERT INTO users (member_id, username, password_hash, is_active)
+        VALUES (@MemberId, 'admin', HASHBYTES('SHA2_256', 'Admin@123'), 1);
+    END
+    SELECT @UserId = user_id FROM users WHERE username = 'admin';
+
+    -- 6️⃣ Roles ensure
+    IF NOT EXISTS (SELECT 1 FROM roles WHERE name = 'Admin')
+        INSERT INTO roles (name) VALUES ('Admin');
+    IF NOT EXISTS (SELECT 1 FROM roles WHERE name = 'User')
+        INSERT INTO roles (name) VALUES ('User');
+
+    SELECT @AdminRoleId = role_id FROM roles WHERE name = 'Admin';
+
+    -- 7️⃣ User_Roles mapping
+    IF NOT EXISTS (SELECT 1 FROM user_roles WHERE user_id = @UserId AND role_id = @AdminRoleId)
+    BEGIN
+        INSERT INTO user_roles (user_id, role_id, society_id)
+        VALUES (@UserId, @AdminRoleId, @SocietyId);
+    END
+
+    -- 8️⃣ Unit Occupancy
+    IF NOT EXISTS (SELECT 1 FROM unit_occupancies WHERE unit_id = @UnitId AND member_id = @MemberId)
+    BEGIN
+        INSERT INTO unit_occupancies (unit_id, member_id, type, start_date)
+        VALUES (@UnitId, @MemberId, 'Owner', GETDATE());
+    END
+
+    COMMIT TRANSACTION;
+    PRINT '✅ Admin seeded or already present — no duplicate created.';
+
+END TRY
+BEGIN CATCH
+    ROLLBACK TRANSACTION;
+    PRINT '❌ Error during seeding: ' + ERROR_MESSAGE();
+END CATCH;
+GO

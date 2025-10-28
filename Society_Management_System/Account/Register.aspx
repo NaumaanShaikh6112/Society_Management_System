@@ -32,8 +32,8 @@
             body::before {
                 content: '';
                 position: absolute;
-                width: 200%;
-                height: 200%;
+                width: 120%;
+                height: 120%;
                 top: -50%;
                 left: -50%;
                 background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
@@ -384,45 +384,45 @@
                         </div>
                     </div>
 
-<asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
-    <ContentTemplate>
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
 
-        <!-- 🔹 Society -->
-        <div class="form-group">
-            <label for="ddlSociety">Select Society</label>
-            <asp:DropDownList ID="ddlSociety" runat="server"
-                CssClass="form-control"
-                AutoPostBack="true"
-                AppendDataBoundItems="true"
-                OnSelectedIndexChanged="ddlSociety_SelectedIndexChanged">
-                <asp:ListItem Text="-- Select Society --" Value="" />
-            </asp:DropDownList>
-        </div>
+                            <!-- 🔹 Society -->
+                            <div class="form-group">
+                                <label for="ddlSociety">Select Society</label>
+                                <asp:DropDownList ID="ddlSociety" runat="server"
+                                    CssClass="form-control"
+                                    AutoPostBack="true"
+                                    AppendDataBoundItems="true"
+                                    OnSelectedIndexChanged="ddlSociety_SelectedIndexChanged">
+                                    <asp:ListItem Text="-- Select Society --" Value="" />
+                                </asp:DropDownList>
+                            </div>
 
-        <!-- 🔹 Building -->
-        <div class="form-group">
-            <label for="ddlBuilding">Select Building</label>
-            <asp:DropDownList ID="ddlBuilding" runat="server"
-                CssClass="form-control"
-                AutoPostBack="true"
-                AppendDataBoundItems="true"
-                OnSelectedIndexChanged="ddlBuilding_SelectedIndexChanged">
-                <asp:ListItem Text="-- Select Building --" Value="" />
-            </asp:DropDownList>
-        </div>
+                            <!-- 🔹 Building -->
+                            <div class="form-group">
+                                <label for="ddlBuilding">Select Building</label>
+                                <asp:DropDownList ID="ddlBuilding" runat="server"
+                                    CssClass="form-control"
+                                    AutoPostBack="true"
+                                    AppendDataBoundItems="true"
+                                    OnSelectedIndexChanged="ddlBuilding_SelectedIndexChanged">
+                                    <asp:ListItem Text="-- Select Building --" Value="" />
+                                </asp:DropDownList>
+                            </div>
 
-        <!-- 🔹 Unit -->
-        <div class="form-group">
-            <label for="ddlUnit">Select Unit / Flat No.</label>
-            <asp:DropDownList ID="ddlUnit" runat="server"
-                CssClass="form-control"
-                AppendDataBoundItems="true">
-                <asp:ListItem Text="-- Select Unit --" Value="" />
-            </asp:DropDownList>
-        </div>
+                            <!-- 🔹 Unit -->
+                            <div class="form-group">
+                                <label for="ddlUnit">Select Unit / Flat No.</label>
+                                <asp:DropDownList ID="ddlUnit" runat="server"
+                                    CssClass="form-control"
+                                    AppendDataBoundItems="true">
+                                    <asp:ListItem Text="-- Select Unit --" Value="" />
+                                </asp:DropDownList>
+                            </div>
 
-    </ContentTemplate>
-</asp:UpdatePanel>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
 
 
                     <div class="form-group">
@@ -495,7 +495,7 @@
                         </p>
                     </div>
                 </div>
-        </div>
+            </div>
     </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
