@@ -168,6 +168,51 @@ namespace Society_Management_System.Account
         protected global::System.Web.UI.WebControls.RequiredFieldValidator reqFlatNo;
 
         /// <summary>
+        /// ddlSociety control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSociety;
+
+        /// <summary>
+        /// reqSociety control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqSociety;
+
+        /// <summary>
+        /// ddlOccupancyType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlOccupancyType;
+
+        /// <summary>
+        /// reqOccupancyType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqOccupancyType;
+
+        /// <summary>
+        /// hdnRoleId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnRoleId;
+
+        /// <summary>
         /// txtPassword control.
         /// </summary>
         /// <remarks>

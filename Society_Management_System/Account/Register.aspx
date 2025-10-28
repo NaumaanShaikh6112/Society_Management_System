@@ -1,16 +1,12 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="Society_Management_System.Account.Register" %>
 
-
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="Society_Management_System.Account.Register" %>
-
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register - Society Management System</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -33,22 +29,27 @@
             overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: moveBackground 20s linear infinite;
-            z-index: 0;
-        }
+            body::before {
+                content: '';
+                position: absolute;
+                width: 200%;
+                height: 200%;
+                top: -50%;
+                left: -50%;
+                background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+                background-size: 50px 50px;
+                animation: moveBackground 20s linear infinite;
+                z-index: 0;
+            }
 
         @keyframes moveBackground {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
         }
 
         .register-container {
@@ -74,6 +75,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -152,18 +154,18 @@
             cursor: pointer;
         }
 
-        .form-select option {
-            background: #764ba2;
-            color: #fff;
-        }
+            .form-select option {
+                background: #764ba2;
+                color: #fff;
+            }
 
-        .form-control:focus, .form-select:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-            color: #fff;
-            outline: none;
-        }
+            .form-control:focus, .form-select:focus {
+                background: rgba(255, 255, 255, 0.15);
+                border-color: rgba(255, 255, 255, 0.5);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+                color: #fff;
+                outline: none;
+            }
 
         .form-control::placeholder {
             color: rgba(255, 255, 255, 0.6);
@@ -183,10 +185,10 @@
             margin-top: 1rem;
         }
 
-        .btn-register:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
+            .btn-register:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            }
 
         .error-message, .success-message {
             border-radius: 15px;
@@ -213,15 +215,15 @@
             color: rgba(255, 255, 255, 0.9);
         }
 
-        .form-footer a {
-            color: #fff;
-            font-weight: 600;
-            text-decoration: none;
-        }
+            .form-footer a {
+                color: #fff;
+                font-weight: 600;
+                text-decoration: none;
+            }
 
-        .form-footer a:hover {
-            text-decoration: underline;
-        }
+                .form-footer a:hover {
+                    text-decoration: underline;
+                }
 
         .back-home {
             position: absolute;
@@ -243,20 +245,20 @@
             gap: 0.5rem;
         }
 
-        .btn-back:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateX(-5px);
-        }
+            .btn-back:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: translateX(-5px);
+            }
 
         .row {
             margin-left: -0.5rem;
             margin-right: -0.5rem;
         }
 
-        .row > div {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-        }
+            .row > div {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
 
         .validation-message {
             color: #fff;
@@ -284,13 +286,13 @@
             }
         }
     </style>
-   
+
 </head>
 <body>
     <form id="form1" runat="server">
         <div class="back-home">
             <asp:HyperLink ID="lnkBackHome" runat="server" NavigateUrl="~/Default.aspx" CssClass="btn-back">
-                <i class="fas fa-arrow-left"></i> Back to Home
+            <i class="fas fa-arrow-left"></i> Back to Home
             </asp:HyperLink>
         </div>
 
@@ -314,7 +316,7 @@
                     <asp:Label ID="lblSuccess" runat="server"></asp:Label>
                 </asp:Panel>
 
-                <asp:ValidationSummary ID="valSummary" runat="server" CssClass="validation-message" ValidationGroup="RegisterVG" HeaderText="" DisplayMode="BulletList" />
+                <asp:ValidationSummary ID="valSummary" runat="server" CssClass="validation-message" ValidationGroup="RegisterVG" DisplayMode="BulletList" />
 
                 <div class="row">
                     <div class="col-md-6">
@@ -374,6 +376,26 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-label" for="ddlSociety">Select Society</label>
+                    <asp:DropDownList ID="ddlSociety" runat="server" CssClass="form-control" ValidationGroup="RegisterVG" />
+                    <asp:RequiredFieldValidator ID="reqSociety" runat="server" ControlToValidate="ddlSociety"
+                        ErrorMessage="Society is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="ddlOccupancyType">Occupancy Type</label>
+                    <asp:DropDownList ID="ddlOccupancyType" runat="server" CssClass="form-control" ValidationGroup="RegisterVG">
+                        <asp:ListItem Text="Select" Value="" />
+                        <asp:ListItem Text="Owner" Value="Owner" />
+                        <asp:ListItem Text="Tenant" Value="Tenant" />
+                    </asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="reqOccupancyType" runat="server" ControlToValidate="ddlOccupancyType"
+                        ErrorMessage="Occupancy type is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
+                </div>
+
+                <asp:HiddenField ID="hdnRoleId" runat="server" Value="2" />
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -408,7 +430,8 @@
                 <asp:Button ID="btnRegister" runat="server" CssClass="btn-register" Text="Create Account" OnClick="btnRegister_Click" ValidationGroup="RegisterVG" />
 
                 <div class="form-footer">
-                    <p>Already have an account? <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/Account/Login.aspx">Sign in</asp:HyperLink></p>
+                    <p>Already have an account?
+                        <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/Account/Login.aspx">Sign in</asp:HyperLink></p>
                 </div>
             </div>
         </div>
