@@ -39,7 +39,7 @@ namespace Society_Management_System.Account
                                 if (Session["role"].ToString() == "admin")
                                     Response.Redirect("~/Admin/AdminDashboard.aspx");
                                 else
-                                    Response.Redirect("~/User/UserDashboard.aspx");
+                                    Response.Redirect("~/Member/MemberDashboard.aspx");
                             }
                             else
                             {

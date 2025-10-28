@@ -1,0 +1,273 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Admin.Master.cs" Inherits="Society_Manage.Admin.AdminMaster" %>
+
+<!DOCTYPE html>
+<!-- ... rest of the file is identical ... -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <title>Society Management - Admin</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- 1. Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Bootstrap 5.x CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <!-- 3. Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <!-- 4. Internal CSS for Glassmorphism & Custom Styles -->
+    <style type="text/css">
+        /* Beautiful background gradient */
+        body {
+            /* A nice modern gradient */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* The core glassmorphism effect class */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); /* Safari support */
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 1rem; /* 16px */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Modern Glass Input */
+        .glass-input {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.5rem; /* 8px */
+            padding: 0.75rem 1rem; /* 12px 16px */
+            color: #E0E0E0; /* Light text for dark bg */
+            transition: all 0.2s ease-in-out;
+        }
+        .glass-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 0.3);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.5); /* Focus ring */
+            color: #FFFFFF;
+        }
+        .glass-input::placeholder {
+            color: #C0C0C0;
+        }
+        /* Fix for ASP.NET DropDownList */
+        .glass-input {
+            color: #1a202c; /* Dark text for readability on light dropdown */
+        }
+        .glass-input:focus {
+            color: #1a202c;
+        }
+        select.glass-input option {
+             background: #FFFFFF;
+             color: #1a202c;
+        }
+
+        /* Styling for ASP.NET GridView */
+        .glass-grid {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 1rem;
+            overflow: hidden; /* To clip child elements to rounded corners */
+            color: #FFFFFF;
+        }
+        .glass-grid th, .glass-grid td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .glass-grid th {
+            /* Glass header */
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: #FFFFFF;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .glass-grid tr:last-child td {
+            border-bottom: none;
+        }
+        .glass-grid tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .grid-link {
+            color: #fcd34d; /* Yellow link for visibility */
+            text-decoration: none;
+            margin-right: 0.5rem;
+        }
+        .grid-link:hover {
+            text-decoration: underline;
+        }
+        .grid-link.delete-link {
+            color: #f87171; /* Red link for delete */
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            color: #E0E0E0;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link i {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+        .sidebar-link.active {
+             background: rgba(255, 255, 255, 0.9);
+             color: #3B3B3B;
+             font-weight: 600;
+             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* General page text color */
+        .main-content, .main-content h1, .main-content h2, .main-content label {
+            color: #FFFFFF;
+        }
+
+        /* Override Bootstrap button for a modern look */
+        .btn-primary {
+             background-color: #fcd34d !important; /* Tailwind yellow-400 */
+             border-color: #fcd34d !important;
+             color: #1a202c !important; /* Dark text */
+             font-weight: 600 !important;
+        }
+        .btn-primary:hover {
+             background-color: #facc15 !important; /* Tailwind yellow-500 */
+             border-color: #facc15 !important;
+        }
+        .btn-outline-secondary {
+            color: #FFFFFF !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+        }
+        .btn-outline-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(255, 255, 255, 0.8) !important;
+            color: #FFFFFF !important;
+        }
+
+    </style>
+    
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body class="text-gray-200">
+    <form id="form1" runat="server">
+        <div class="flex h-screen">
+            
+            <!-- Sidebar -->
+            <aside class="fixed top-0 left-0 h-screen w-64 glass-effect m-4 !rounded-2xl overflow-y-auto p-4 flex flex-col">
+                <div class="text-center py-4 mb-4">
+                    <h2 class="text-2xl font-bold text-white">SocietyPro</h2>
+                    <p class="text-sm text-gray-300">Admin Panel</p>
+                </div>
+                
+                <nav class="flex-grow space-y-1 overflow-y-auto" style="scrollbar-width: thin;">
+                    <asp:HyperLink ID="lnkDashboard" runat="server" NavigateUrl="~/Admin/AdminDashboard.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkSocieties" runat="server" NavigateUrl="~/Admin/ManageSocieties.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-building"></i> Societies
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkBuildings" runat="server" NavigateUrl="~/Admin/ManageBuildings.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-bricks"></i> Buildings
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkUnits" runat="server" NavigateUrl="~/Admin/ManageUnits.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-door-open"></i> Units
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkMembers" runat="server" NavigateUrl="~/Admin/ManageMembers.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-people-fill"></i> Members
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkBills" runat="server" NavigateUrl="~/Admin/ManageBills.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-receipt"></i> Bills
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkPayments" runat="server" NavigateUrl="~/Admin/ManagePayments.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-cash-stack"></i> Payments
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkComplaints" runat="server" NavigateUrl="~/Admin/ManageComplaints.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-exclamation-octagon"></i> Complaints
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkVehicles" runat="server" NavigateUrl="~/Admin/ManageVehicles.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-car-front-fill"></i> Vehicles
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkVendors" runat="server" NavigateUrl="~/Admin/ManageVendors.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-person-badge"></i> Vendors
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkExpenses" runat="server" NavigateUrl="~/Admin/ManageExpenses.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-wallet2"></i> Expenses
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkAnnouncements" runat="server" NavigateUrl="~/Admin/ManageAnnouncements.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-megaphone-fill"></i> Announcements
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkAmenities" runat="server" NavigateUrl="~/Admin/ManageAmenities.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-calendar-heart"></i> Amenities
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkBookings" runat="server" NavigateUrl="~/Admin/ManageBookings.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-calendar2-check"></i> Bookings
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkGateLogs" runat="server" NavigateUrl="~/Admin/ManageGateLogs.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-door-closed-fill"></i> Gate Logs
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkDocuments" runat="server" NavigateUrl="~/Admin/ManageDocuments.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-file-earmark-text-fill"></i> Documents
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="lnkAuditLogs" runat="server" NavigateUrl="~/Admin/ManageAuditLogs.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-journal-check"></i> Audit Logs
+                    </asp:HyperLink>
+                </nav>
+
+                <!-- Logout -->
+                <div class="mt-auto pt-2">
+                    <asp:HyperLink ID="lnkLogout" runat="server" NavigateUrl="~/Account/Logout.aspx" CssClass="sidebar-link !bg-red-500/30 hover:!bg-red-500/50 hover:!text-white">
+                        <i class="bi bi-box-arrow-left"></i> Logout
+                    </asp:HyperLink>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 ml-[18rem] main-content"> <!-- 18rem = 16rem sidebar (w-64) + 2rem margin (m-4 * 2) -->
+                
+                <!-- Top Bar -->
+                <header class="sticky top-0 z-10 glass-effect m-4 !mt-4 !rounded-2xl">
+                    <div class="px-6 py-4 flex justify-between items-center">
+                        <h1 class="text-2xl font-semibold text-white">
+                            <asp:ContentPlaceHolder ID="PageTitle" runat="server" />
+                        </h1>
+                        <div class="text-right text-white">
+                             <span class="font-medium">Welcome, 
+                                <asp:Label ID="lblUserName" runat="server" Text="Admin" />
+                             </span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Page Content -->
+                <div class="p-4 pt-0">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                        <!-- All .aspx page content will go here -->
+                    </asp:ContentPlaceHolder>
+                </div>
+            </main>
+        </div>
+    </form>
+</body>
+</html>

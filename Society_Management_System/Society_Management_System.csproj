@@ -69,6 +69,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Register.aspx" />
+    <Content Include="Admin\AdminDashboard.aspx" />
+    <Content Include="Admin\ManageBuildings.aspx" />
+    <Content Include="Admin\ManageMembers.aspx" />
+    <Content Include="Admin\ManageSocieties.aspx" />
+    <Content Include="Admin\ManageUnits.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Global.asax" />
@@ -81,6 +86,48 @@
     </Compile>
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Admin.Master.cs">
+      <DependentUpon>Admin.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Admin.Master.designer.cs">
+      <DependentUpon>Admin.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AdminDashboard.aspx.cs">
+      <DependentUpon>AdminDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminDashboard.aspx.designer.cs">
+      <DependentUpon>AdminDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageBuildings.aspx.cs">
+      <DependentUpon>ManageBuildings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageBuildings.aspx.designer.cs">
+      <DependentUpon>ManageBuildings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageMembers.aspx.cs">
+      <DependentUpon>ManageMembers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageMembers.aspx.designer.cs">
+      <DependentUpon>ManageMembers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageSocieties.aspx.cs">
+      <DependentUpon>ManageSocieties.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageSocieties.aspx.designer.cs">
+      <DependentUpon>ManageSocieties.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageUnits.aspx.cs">
+      <DependentUpon>ManageUnits.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageUnits.aspx.designer.cs">
+      <DependentUpon>ManageUnits.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -102,6 +149,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\Admin.Master" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
