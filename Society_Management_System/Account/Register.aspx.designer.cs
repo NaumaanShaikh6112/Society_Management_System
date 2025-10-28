@@ -176,6 +176,9 @@ namespace Society_Management_System.Account
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSociety;
 
+        protected global::System.Web.UI.WebControls.DropDownList ddlBuilding;
+
+
         /// <summary>
         /// reqSociety control.
         /// </summary>

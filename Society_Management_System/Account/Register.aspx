@@ -384,6 +384,14 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-label" for="ddlBuilding">Select Building</label>
+                    <asp:DropDownList ID="ddlBuilding" runat="server" CssClass="form-control" ValidationGroup="RegisterVG" />
+                    <asp:RequiredFieldValidator ID="reqBuilding" runat="server" ControlToValidate="ddlBuilding"
+                        ErrorMessage="Building is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
+                </div>
+
+
+                <div class="form-group">
                     <label class="form-label" for="ddlOccupancyType">Occupancy Type</label>
                     <asp:DropDownList ID="ddlOccupancyType" runat="server" CssClass="form-control" ValidationGroup="RegisterVG">
                         <asp:ListItem Text="Select" Value="" />
