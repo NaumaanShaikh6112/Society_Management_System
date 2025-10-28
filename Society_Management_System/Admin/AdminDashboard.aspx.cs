@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace Society_Manage.Admin
+namespace Society_Management_System.Admin
 {
     public partial class AdminDashboard : System.Web.UI.Page
     {

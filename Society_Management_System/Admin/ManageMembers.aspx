@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="ManageMembers.aspx.cs" Inherits="Society_Manage.Admin.ManageMembers" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="ManageMembers.aspx.cs" Inherits="Society_Management_System.Admin.ManageMembers" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PageTitle" runat="server">

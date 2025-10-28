@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
 
-namespace Society_Manage.Admin
+namespace Society_Management_System.Admin
 {
     public partial class AdminMaster : System.Web.UI.MasterPage
     {

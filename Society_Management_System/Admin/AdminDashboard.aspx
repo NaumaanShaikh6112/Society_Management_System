@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="AdminDashboard.aspx.cs" Inherits="Society_Manage.Admin.AdminDashboard" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="AdminDashboard.aspx.cs" Inherits="Society_Management_System.Admin.AdminDashboard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PageTitle" runat="server">
     Dashboard

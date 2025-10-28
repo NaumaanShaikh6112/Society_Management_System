@@ -6,7 +6,7 @@ using System.Net.NetworkInformation;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
 
-namespace Society_Manage.Admin
+namespace Society_Management_System.Admin
 {
     public partial class ManageSocieties : System.Web.UI.Page
     {

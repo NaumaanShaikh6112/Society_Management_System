@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Admin.Master.cs" Inherits="Society_Manage.Admin.AdminMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Admin.Master.cs" Inherits="Society_Management_System.Admin.AdminMaster" %>
 
 <!DOCTYPE html>
 <!-- ... rest of the file is identical ... -->

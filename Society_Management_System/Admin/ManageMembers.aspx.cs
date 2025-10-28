@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 
-namespace Society_Manage.Admin
+namespace Society_Management_System.Admin
 {
     public partial class ManageMembers : System.Web.UI.Page
     {

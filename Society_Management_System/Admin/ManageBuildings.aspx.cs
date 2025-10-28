@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
 
-namespace Society_Manage.Admin
+namespace Society_Management_System.Admin
 {
     public partial class ManageBuildings : System.Web.UI.Page
     {

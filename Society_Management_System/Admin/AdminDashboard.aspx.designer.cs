@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Society_Manage.Admin
+namespace Society_Management_System.Admin
 {
 
 

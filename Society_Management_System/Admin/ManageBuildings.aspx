@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="ManageBuildings.aspx.cs" Inherits="Society_Manage.Admin.ManageBuildings" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="ManageBuildings.aspx.cs" Inherits="Society_Management_System.Admin.ManageBuildings" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PageTitle" runat="server">
     Manage Buildings
