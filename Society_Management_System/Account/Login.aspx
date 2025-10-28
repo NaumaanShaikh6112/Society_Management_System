@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="Account_Login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Society_Management_System.Account.Login" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -322,101 +322,105 @@
     </style>
 </head>
 <body>
-    <form id="form1" runat="server">
-        <!-- Floating Shapes -->
-        <div class="shape shape1"></div>
-        <div class="shape shape2"></div>
-        <div class="shape shape3"></div>        
+<form id="form1" runat="server">
+    <!-- Floating Shapes -->
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="shape shape3"></div>
 
-        <!-- Back to Home Button -->
-        <div class="back-home">
-            <asp:HyperLink ID="lnkBackHome" runat="server" NavigateUrl="~/Default.aspx" CssClass="btn-back">
-                <i class="fas fa-arrow-left"></i> Back to Home
-            </asp:HyperLink>
-        </div>
+    <!-- Back to Home Button -->
+    <div class="back-home">
+        <asp:HyperLink ID="lnkBackHome" runat="server" NavigateUrl="~/Default.aspx" CssClass="btn-back">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </asp:HyperLink>
+    </div>
 
-        <!-- Login Container -->
-        <div class="login-container">
-            <div class="glass-card">
-                <!-- Header -->
-                <div class="login-header">
-                    <div class="login-icon">
-                        <i class="fas fa-user-lock"></i>
-                    </div>
-                    <h1 class="login-title">Welcome Back</h1>
-                    <p class="login-subtitle">Sign in to access your dashboard</p>
+    <!-- Login Container -->
+    <div class="login-container">
+        <div class="glass-card">
+            <!-- Header -->
+            <div class="login-header">
+                <div class="login-icon">
+                    <i class="fas fa-user-lock"></i>
                 </div>
+                <h1 class="login-title">Welcome Back</h1>
+                <p class="login-subtitle">Sign in to access your dashboard</p>
+            </div>
 
-                <!-- Error Message -->
-                <asp:Panel ID="pnlError" runat="server" Visible="false" CssClass="error-message">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <asp:Label ID="lblError" runat="server"></asp:Label>
-                </asp:Panel>
+            <!-- Error Message -->
+            <asp:Panel ID="pnlError" runat="server" Visible="false" CssClass="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <asp:Label ID="lblError" runat="server"></asp:Label>
+            </asp:Panel>
 
-                <!-- Login Form -->
-                <div class="form-group">
-                    <label class="form-label">Username</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-user input-icon"></i>
-                        <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" 
-                                     placeholder="Enter your username" AutoComplete="off"></asp:TextBox>
-                    </div>
-                    <asp:RequiredFieldValidator ID="rfvUsername" runat="server" 
-                                              ControlToValidate="txtUsername"
-                                              ErrorMessage="Username is required"
-                                              ForeColor="White"
-                                              Display="Dynamic"
-                                              CssClass="mt-2 d-block"></asp:RequiredFieldValidator>
+            <!-- Username -->
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user input-icon"></i>
+                    <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control"
+                                 placeholder="Enter your username" AutoComplete="off" />
                 </div>
+                <asp:RequiredFieldValidator ID="rfvUsername" runat="server"
+                                            ControlToValidate="txtUsername"
+                                            ErrorMessage="Username is required"
+                                            ForeColor="White"
+                                            Display="Dynamic"
+                                            CssClass="mt-2 d-block" />
+            </div>
 
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-lock input-icon"></i>
-                        <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" 
-                                     CssClass="form-control" placeholder="Enter your password"></asp:TextBox>
-                    </div>
-                    <asp:RequiredFieldValidator ID="rfvPassword" runat="server" 
-                                              ControlToValidate="txtPassword"
-                                              ErrorMessage="Password is required"
-                                              ForeColor="White"
-                                              Display="Dynamic"
-                                              CssClass="mt-2 d-block"></asp:RequiredFieldValidator>
+            <!-- Password -->
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock input-icon"></i>
+                    <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"
+                                 CssClass="form-control" placeholder="Enter your password" />
                 </div>
+                <asp:RequiredFieldValidator ID="rfvPassword" runat="server"
+                                            ControlToValidate="txtPassword"
+                                            ErrorMessage="Password is required"
+                                            ForeColor="White"
+                                            Display="Dynamic"
+                                            CssClass="mt-2 d-block" />
+            </div>
 
-                <div class="checkbox-wrapper">
-                    <asp:CheckBox ID="chkRememberMe" runat="server" />
-                    <label for="<%= chkRememberMe.ClientID %>">Remember me</label>
-                </div>
+            <!-- Remember Me -->
+            <div class="checkbox-wrapper">
+                <asp:CheckBox ID="chkRememberMe" runat="server" />
+                <label for="<%= chkRememberMe.ClientID %>">Remember me</label>
+            </div>
 
-                <asp:Button ID="btnLogin" runat="server" CssClass="btn btn-login" 
-                           Text="Sign In" OnClick="btnLogin_Click" />
+            <!-- Login Button -->
+            <asp:Button ID="btnLogin" runat="server" CssClass="btn btn-login"
+                        Text="Sign In" OnClick="BtnLogin_Click" />
 
-                <div class="form-footer">
-                    Don't have an account? 
-                    <asp:HyperLink ID="lnkRegister" runat="server" NavigateUrl="~/Account/Register.aspx">
-                        Register here
-                    </asp:HyperLink>
-                </div>
+            <!-- Footer -->
+            <div class="form-footer">
+                Don't have an account?
+                <asp:HyperLink ID="lnkRegister" runat="server" NavigateUrl="~/Account/Register.aspx">
+                    Register here
+                </asp:HyperLink>
             </div>
         </div>
-    </form>
+    </div>
+</form>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        // Add floating animation to input focus
-        document.querySelectorAll('.form-control').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'translateY(-2px)';
-                this.parentElement.style.transition = 'all 0.3s ease';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'translateY(0)';
-            });
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Floating animation on input focus
+    document.querySelectorAll('.form-control').forEach(input => {
+        input.addEventListener('focus', function () {
+            this.parentElement.style.transform = 'translateY(-2px)';
+            this.parentElement.style.transition = 'all 0.3s ease';
         });
-    </script>
+
+        input.addEventListener('blur', function () {
+            this.parentElement.style.transform = 'translateY(0)';
+        });
+    });
+</script>
 </body>
 </html>

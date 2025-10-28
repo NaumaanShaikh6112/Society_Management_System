@@ -1,4 +1,6 @@
-﻿        <%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Society_Management_System.Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Society_Management_System.Default" %>
+
+
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -333,7 +335,7 @@
                             <a class="nav-link" href="#contact">Contact</a>
                         </li>
                         <li class="nav-item ms-3">
-                            <asp:Button ID="btnGoToLogin" runat="server" CssClass="btn btn-login" Text="Login" OnClick="btnGoToLogin_Click" />
+                            <asp:Button ID="btnGoToLogin" runat="server" CssClass="btn btn-login" Text="Login" OnClick="BtnGoToLogin_Click" />
                         </li>
                     </ul>
                 </div>
@@ -351,7 +353,7 @@
                             Bills, complaints, amenities, and more - all in one place.
                         </p>
                         <div class="mt-4">
-                            <asp:Button ID="btnGetStarted" runat="server" CssClass="btn btn-primary-custom me-3" Text="Get Started" OnClick="btnGetStarted_Click" />
+                            <asp:Button ID="btnGetStarted" runat="server" CssClass="btn btn-primary-custom me-3" Text="Get Started" OnClick="BtnGetStarted_Click" />
                             <button type="button" class="btn btn-secondary-custom">Learn More</button>
                         </div>
                     </div>
