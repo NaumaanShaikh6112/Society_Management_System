@@ -16,10 +16,10 @@ namespace Society_Management_System.Admin
             con = new SqlConnection(cnf);
             con.Open();
 
-            //if (Session["UserID"] == null || Session["Role"]?.ToString() != "Admin")
-            //{
-            //    Response.Redirect("~/Account/Login.aspx?msg=session_expired");
-            //}
+            if (Session["user_id"] == null || Session["role"]?.ToString() != "admin")
+            {
+                Response.Redirect("~/Account/Login.aspx?msg=session_expired");
+            }
 
             if (!IsPostBack)
             {

@@ -348,6 +348,11 @@
             </div>
 
             <!-- Error Message -->
+            <asp:Panel ID="pnlInfo" runat="server" CssClass="alert alert-success" Visible="false">
+    <asp:Label ID="lblInfo" runat="server" />
+</asp:Panel>
+
+
             <asp:Panel ID="pnlError" runat="server" Visible="false" CssClass="error-message">
                 <i class="fas fa-exclamation-circle"></i>
                 <asp:Label ID="lblError" runat="server"></asp:Label>

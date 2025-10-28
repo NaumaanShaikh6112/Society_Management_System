@@ -9,6 +9,17 @@ namespace Society_Management_System.Account
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            string msg = Request.QueryString["msg"];
+            if (msg == "logged_out")
+            {
+                pnlInfo.Visible = true;
+                lblInfo.Text = "You have been logged out successfully.";
+            }
+            else if (msg == "session_expired")
+            {
+                pnlError.Visible = true;
+                lblError.Text = "Session expired. Please log in again.";
+            }
         }
 
         protected void BtnLogin_Click(object sender, EventArgs e)
