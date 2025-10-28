@@ -78,6 +78,8 @@
     <Content Include="Default.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Member\MemberDashboard.aspx" />
+    <Content Include="Member\MyProfile.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -154,10 +156,32 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Member\Member.Master.cs">
+      <DependentUpon>Member.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\Member.Master.designer.cs">
+      <DependentUpon>Member.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Member\MemberDashboard.aspx.cs">
+      <DependentUpon>MemberDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\MemberDashboard.aspx.designer.cs">
+      <DependentUpon>MemberDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\MyProfile.aspx.cs">
+      <DependentUpon>MyProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\MyProfile.aspx.designer.cs">
+      <DependentUpon>MyProfile.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\Admin.Master" />
+    <Content Include="Member\Member.Master" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

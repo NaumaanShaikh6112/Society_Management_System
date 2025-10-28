@@ -159,31 +159,13 @@ namespace Society_Management_System.Account
         protected global::System.Web.UI.WebControls.RegularExpressionValidator revMobile;
 
         /// <summary>
-        /// txtFlatNo control.
+        /// UpdatePanel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFlatNo;
-
-        /// <summary>
-        /// reqFlatNo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqFlatNo;
-
-        /// <summary>
-        /// updSocietyBuilding control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel updSocietyBuilding;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
 
         /// <summary>
         /// ddlSociety control.
@@ -195,15 +177,6 @@ namespace Society_Management_System.Account
         protected global::System.Web.UI.WebControls.DropDownList ddlSociety;
 
         /// <summary>
-        /// reqSociety control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqSociety;
-
-        /// <summary>
         /// ddlBuilding control.
         /// </summary>
         /// <remarks>
@@ -213,13 +186,13 @@ namespace Society_Management_System.Account
         protected global::System.Web.UI.WebControls.DropDownList ddlBuilding;
 
         /// <summary>
-        /// reqBuilding control.
+        /// ddlUnit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqBuilding;
+        protected global::System.Web.UI.WebControls.DropDownList ddlUnit;
 
         /// <summary>
         /// ddlOccupancyType control.

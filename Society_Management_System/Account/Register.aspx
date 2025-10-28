@@ -159,19 +159,19 @@
                 color: #fff;
             }
 
-            select.form-control option {
-    background: #9285CD;
-    color: #fff;
-}
+        select.form-control option {
+            background: #9285CD;
+            color: #fff;
+        }
 
 
-            .form-control:focus, .form-select:focus {
-                background: rgba(255, 255, 255, 0.15);
-                border-color: rgba(255, 255, 255, 0.5);
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-                color: #fff;
-                outline: none;
-            }
+        .form-control:focus, .form-select:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            color: #fff;
+            outline: none;
+        }
 
         .form-control::placeholder {
             color: rgba(255, 255, 255, 0.6);
@@ -296,13 +296,16 @@
 </head>
 <body>
     <form id="form1" runat="server">
-         <asp:ScriptManager ID="ScriptManager1" runat="server" />
+        <asp:ScriptManager ID="ScriptManager1" runat="server" />
+
+        <!-- 🔙 Back to Home -->
         <div class="back-home">
             <asp:HyperLink ID="lnkBackHome" runat="server" NavigateUrl="~/Default.aspx" CssClass="btn-back">
-            <i class="fas fa-arrow-left"></i> Back to Home
+                <i class="fas fa-arrow-left"></i> Back to Home
             </asp:HyperLink>
         </div>
 
+        <!-- 🌟 Registration Container -->
         <div class="register-container">
             <div class="glass-card">
                 <div class="register-header">
@@ -313,6 +316,7 @@
                     <p class="register-subtitle">Join our community today</p>
                 </div>
 
+                <!-- 🔺 Error and Success Panels -->
                 <asp:Panel ID="pnlError" runat="server" Visible="false" CssClass="error-message">
                     <i class="fas fa-exclamation-circle"></i>
                     <asp:Label ID="lblError" runat="server"></asp:Label>
@@ -323,18 +327,22 @@
                     <asp:Label ID="lblSuccess" runat="server"></asp:Label>
                 </asp:Panel>
 
-                <asp:ValidationSummary ID="valSummary" runat="server" CssClass="validation-message" ValidationGroup="RegisterVG" DisplayMode="BulletList" />
+                <!-- ⚙️ Validation Summary -->
+                <asp:ValidationSummary ID="valSummary" runat="server" CssClass="validation-message"
+                    ValidationGroup="RegisterVG" DisplayMode="BulletList" />
 
+                <!-- 🧩 Row 1: Full Name + Email -->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label" for="txtFullName">Full Name</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-user input-icon"></i>
-                                <asp:TextBox ID="txtFullName" runat="server" CssClass="form-control" Placeholder="John Doe" ValidationGroup="RegisterVG" />
+                                <asp:TextBox ID="txtFullName" runat="server" CssClass="form-control" Placeholder="John Doe" />
                             </div>
                             <asp:RequiredFieldValidator ID="reqFullName" runat="server" ControlToValidate="txtFullName"
-                                ErrorMessage="Full name is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
+                                ErrorMessage="Full name is required." CssClass="validation-message"
+                                ValidationGroup="RegisterVG" Display="Dynamic" />
                         </div>
                     </div>
 
@@ -343,123 +351,152 @@
                             <label class="form-label" for="txtEmail">Email</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-envelope input-icon"></i>
-                                <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" Placeholder="you@example.com" ValidationGroup="RegisterVG" />
+                                <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control"
+                                    Placeholder="you@example.com" />
                             </div>
                             <asp:RequiredFieldValidator ID="reqEmail" runat="server" ControlToValidate="txtEmail"
-                                ErrorMessage="Email is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
+                                ErrorMessage="Email is required." CssClass="validation-message"
+                                ValidationGroup="RegisterVG" Display="Dynamic" />
                             <asp:RegularExpressionValidator ID="revEmail" runat="server" ControlToValidate="txtEmail"
-                                ErrorMessage="Enter a valid email address." CssClass="validation-message" ValidationGroup="RegisterVG"
+                                ErrorMessage="Enter a valid email address." CssClass="validation-message"
+                                ValidationGroup="RegisterVG"
                                 ValidationExpression="^[\w\.\-]+@([\w\-]+\.)+[a-zA-Z]{2,}$" Display="Dynamic" />
                         </div>
                     </div>
                 </div>
 
+                <!-- 🧩 Row 2: Mobile + Flat -->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label" for="txtMobile">Mobile Number</label>
                             <div class="input-wrapper">
                                 <i class="fas fa-phone input-icon"></i>
-                                <asp:TextBox ID="txtMobile" runat="server" CssClass="form-control" Placeholder="+1234567890" ValidationGroup="RegisterVG" />
+                                <asp:TextBox ID="txtMobile" runat="server" CssClass="form-control" Placeholder="+1234567890" />
                             </div>
                             <asp:RequiredFieldValidator ID="reqMobile" runat="server" ControlToValidate="txtMobile"
-                                ErrorMessage="Mobile number is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
+                                ErrorMessage="Mobile number is required." CssClass="validation-message"
+                                ValidationGroup="RegisterVG" Display="Dynamic" />
                             <asp:RegularExpressionValidator ID="revMobile" runat="server" ControlToValidate="txtMobile"
-                                ErrorMessage="Enter a valid mobile number." CssClass="validation-message" ValidationGroup="RegisterVG"
+                                ErrorMessage="Enter a valid mobile number." CssClass="validation-message"
+                                ValidationGroup="RegisterVG"
                                 ValidationExpression="^\+?[0-9]{7,15}$" Display="Dynamic" />
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label" for="txtFlatNo">Flat / Unit No.</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-door-closed input-icon"></i>
-                                <asp:TextBox ID="txtFlatNo" runat="server" CssClass="form-control" Placeholder="A-101" ValidationGroup="RegisterVG" />
-                            </div>
-                            <asp:RequiredFieldValidator ID="reqFlatNo" runat="server" ControlToValidate="txtFlatNo"
-                                ErrorMessage="Flat/Unit number is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
-                        </div>
-                    </div>
-                </div>
+<asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+    <ContentTemplate>
 
-                <asp:UpdatePanel ID="updSocietyBuilding" runat="server">
-                    <ContentTemplate>
-                        <!-- Society Dropdown -->
-                        <div class="form-group">
-                            <label class="form-label" for="ddlSociety">Select Society</label>
-                            <asp:DropDownList ID="ddlSociety" runat="server"
-                                CssClass="form-control"
-                                AutoPostBack="true"
-                                OnSelectedIndexChanged="ddlSociety_SelectedIndexChanged"
-                                ValidationGroup="RegisterVG" />
-                            <asp:RequiredFieldValidator ID="reqSociety" runat="server" ControlToValidate="ddlSociety"
-                                ErrorMessage="Society is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
-                        </div>
-                        <!-- Building Dropdown -->
-                        <div class="form-group">
-                            <label class="form-label" for="ddlBuilding">Select Building</label>
-                            <asp:DropDownList ID="ddlBuilding" runat="server" CssClass="form-control" ValidationGroup="RegisterVG" />
-                            <asp:RequiredFieldValidator ID="reqBuilding" runat="server" ControlToValidate="ddlBuilding"
-                                ErrorMessage="Building is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
-                        </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
+        <!-- 🔹 Society -->
+        <div class="form-group">
+            <label for="ddlSociety">Select Society</label>
+            <asp:DropDownList ID="ddlSociety" runat="server"
+                CssClass="form-control"
+                AutoPostBack="true"
+                AppendDataBoundItems="true"
+                OnSelectedIndexChanged="ddlSociety_SelectedIndexChanged">
+                <asp:ListItem Text="-- Select Society --" Value="" />
+            </asp:DropDownList>
+        </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="ddlOccupancyType">Occupancy Type</label>
-                    <asp:DropDownList ID="ddlOccupancyType" runat="server" CssClass="form-control" ValidationGroup="RegisterVG">
-                        <asp:ListItem Text="Select" Value="" />
-                        <asp:ListItem Text="Owner" Value="Owner" />
-                        <asp:ListItem Text="Tenant" Value="Tenant" />
-                    </asp:DropDownList>
-                    <asp:RequiredFieldValidator ID="reqOccupancyType" runat="server" ControlToValidate="ddlOccupancyType"
-                        ErrorMessage="Occupancy type is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
-                </div>
+        <!-- 🔹 Building -->
+        <div class="form-group">
+            <label for="ddlBuilding">Select Building</label>
+            <asp:DropDownList ID="ddlBuilding" runat="server"
+                CssClass="form-control"
+                AutoPostBack="true"
+                AppendDataBoundItems="true"
+                OnSelectedIndexChanged="ddlBuilding_SelectedIndexChanged">
+                <asp:ListItem Text="-- Select Building --" Value="" />
+            </asp:DropDownList>
+        </div>
 
-                <asp:HiddenField ID="hdnRoleId" runat="server" Value="2" />
+        <!-- 🔹 Unit -->
+        <div class="form-group">
+            <label for="ddlUnit">Select Unit / Flat No.</label>
+            <asp:DropDownList ID="ddlUnit" runat="server"
+                CssClass="form-control"
+                AppendDataBoundItems="true">
+                <asp:ListItem Text="-- Select Unit --" Value="" />
+            </asp:DropDownList>
+        </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label" for="txtPassword">Password</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-lock input-icon"></i>
-                                <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" Placeholder="••••••••" ValidationGroup="RegisterVG" />
-                            </div>
-                            <asp:RequiredFieldValidator ID="reqPassword" runat="server" ControlToValidate="txtPassword"
-                                ErrorMessage="Password is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
-                            <asp:RegularExpressionValidator ID="revPassword" runat="server" ControlToValidate="txtPassword"
-                                ErrorMessage="Password must be at least 6 characters." CssClass="validation-message" ValidationGroup="RegisterVG"
-                                ValidationExpression="^.{6,}$" Display="Dynamic" />
-                        </div>
+    </ContentTemplate>
+</asp:UpdatePanel>
+
+
+                    <div class="form-group">
+                        <label class="form-label" for="ddlOccupancyType">Occupancy Type</label>
+                        <asp:DropDownList ID="ddlOccupancyType" runat="server" CssClass="form-control">
+                            <asp:ListItem Text="Select" Value="" />
+                            <asp:ListItem Text="Owner" Value="Owner" />
+                            <asp:ListItem Text="Tenant" Value="Tenant" />
+                            <asp:ListItem Text="Vacant" Value="Vacant" />
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="reqOccupancyType" runat="server" ControlToValidate="ddlOccupancyType"
+                            ErrorMessage="Occupancy type is required." CssClass="validation-message"
+                            ValidationGroup="RegisterVG" Display="Dynamic" />
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label" for="txtConfirmPassword">Confirm Password</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-lock input-icon"></i>
-                                <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control" TextMode="Password" Placeholder="••••••••" ValidationGroup="RegisterVG" />
+                    <!-- Hidden Role Field -->
+                    <asp:HiddenField ID="hdnRoleId" runat="server" Value="2" />
+
+                    <!-- 🧩 Row 3: Passwords -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="txtPassword">Password</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-lock input-icon"></i>
+                                    <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control"
+                                        TextMode="Password" Placeholder="••••••••" />
+                                </div>
+                                <asp:RequiredFieldValidator ID="reqPassword" runat="server" ControlToValidate="txtPassword"
+                                    ErrorMessage="Password is required." CssClass="validation-message"
+                                    ValidationGroup="RegisterVG" Display="Dynamic" />
+                                <asp:RegularExpressionValidator ID="revPassword" runat="server" ControlToValidate="txtPassword"
+                                    ErrorMessage="Password must be at least 6 characters." CssClass="validation-message"
+                                    ValidationGroup="RegisterVG" ValidationExpression="^.{6,}$" Display="Dynamic" />
                             </div>
-                            <asp:RequiredFieldValidator ID="reqConfirmPassword" runat="server" ControlToValidate="txtConfirmPassword"
-                                ErrorMessage="Please confirm your password." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
-                            <asp:CompareValidator ID="cmpPasswords" runat="server" ControlToCompare="txtPassword" ControlToValidate="txtConfirmPassword"
-                                ErrorMessage="Passwords do not match." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="txtConfirmPassword">Confirm Password</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-lock input-icon"></i>
+                                    <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control"
+                                        TextMode="Password" Placeholder="••••••••" />
+                                </div>
+                                <asp:RequiredFieldValidator ID="reqConfirmPassword" runat="server"
+                                    ControlToValidate="txtConfirmPassword"
+                                    ErrorMessage="Please confirm your password." CssClass="validation-message"
+                                    ValidationGroup="RegisterVG" Display="Dynamic" />
+                                <asp:CompareValidator ID="cmpPasswords" runat="server"
+                                    ControlToValidate="txtConfirmPassword"
+                                    ControlToCompare="txtPassword"
+                                    ErrorMessage="Passwords do not match." CssClass="validation-message"
+                                    ValidationGroup="RegisterVG" Display="Dynamic" />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <asp:Button ID="btnRegister" runat="server" CssClass="btn-register" Text="Create Account" OnClick="btnRegister_Click" ValidationGroup="RegisterVG" />
+                    <!-- 🧩 Register Button -->
+                    <asp:Button ID="btnRegister" runat="server" CssClass="btn-register"
+                        Text="Create Account" OnClick="btnRegister_Click" ValidationGroup="RegisterVG" />
 
-                <div class="form-footer">
-                    <p>Already have an account?
-                        <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/Account/Login.aspx">Sign in</asp:HyperLink></p>
+                    <!-- 🧩 Footer -->
+                    <div class="form-footer">
+                        <p>
+                            Already have an account?
+                        <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/Account/Login.aspx">
+                            Sign in
+                        </asp:HyperLink>
+                        </p>
+                    </div>
                 </div>
-            </div>
         </div>
     </form>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
