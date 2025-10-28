@@ -378,7 +378,11 @@
 
                 <div class="form-group">
                     <label class="form-label" for="ddlSociety">Select Society</label>
-                    <asp:DropDownList ID="ddlSociety" runat="server" CssClass="form-control" ValidationGroup="RegisterVG" />
+                    <asp:DropDownList ID="ddlSociety" runat="server"
+                        CssClass="form-control"
+                        AutoPostBack="true"
+                        OnSelectedIndexChanged="ddlSociety_SelectedIndexChanged"
+                        ValidationGroup="RegisterVG" />
                     <asp:RequiredFieldValidator ID="reqSociety" runat="server" ControlToValidate="ddlSociety"
                         ErrorMessage="Society is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
                 </div>

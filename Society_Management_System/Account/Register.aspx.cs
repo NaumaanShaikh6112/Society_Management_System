@@ -37,12 +37,14 @@ namespace Society_Management_System.Account
 
         private void BindBuildings(long societyId)
         {
+            string conStr = ConfigurationManager.ConnectionStrings["societyDB"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(conStr))
             {
                 SqlCommand cmd = new SqlCommand("SELECT building_id, name FROM buildings WHERE society_id = @society_id", conn);
                 cmd.Parameters.AddWithValue("@society_id", societyId);
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+
                 ddlBuilding.DataSource = reader;
                 ddlBuilding.DataTextField = "name";
                 ddlBuilding.DataValueField = "building_id";
@@ -76,9 +78,9 @@ namespace Society_Management_System.Account
             string flatNo = txtFlatNo.Text.Trim();
             string username = email;
             string password = txtPassword.Text.Trim();
-            string occupancyType = ddlOccupancyType.SelectedValue;
             long societyId = Convert.ToInt64(ddlSociety.SelectedValue);
             long buildingId = Convert.ToInt64(ddlBuilding.SelectedValue);
+            string occupancyType = ddlOccupancyType.SelectedValue;
             int roleId = Convert.ToInt32(hdnRoleId.Value);
 
             long unitId = 0;

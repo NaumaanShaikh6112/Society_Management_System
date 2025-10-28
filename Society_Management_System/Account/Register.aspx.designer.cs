@@ -176,9 +176,6 @@ namespace Society_Management_System.Account
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSociety;
 
-        protected global::System.Web.UI.WebControls.DropDownList ddlBuilding;
-
-
         /// <summary>
         /// reqSociety control.
         /// </summary>
@@ -187,6 +184,24 @@ namespace Society_Management_System.Account
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator reqSociety;
+
+        /// <summary>
+        /// ddlBuilding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlBuilding;
+
+        /// <summary>
+        /// reqBuilding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqBuilding;
 
         /// <summary>
         /// ddlOccupancyType control.
