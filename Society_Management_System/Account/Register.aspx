@@ -290,6 +290,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
+         <asp:ScriptManager ID="ScriptManager1" runat="server" />
         <div class="back-home">
             <asp:HyperLink ID="lnkBackHome" runat="server" NavigateUrl="~/Default.aspx" CssClass="btn-back">
             <i class="fas fa-arrow-left"></i> Back to Home
@@ -376,24 +377,28 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="ddlSociety">Select Society</label>
-                    <asp:DropDownList ID="ddlSociety" runat="server"
-                        CssClass="form-control"
-                        AutoPostBack="true"
-                        OnSelectedIndexChanged="ddlSociety_SelectedIndexChanged"
-                        ValidationGroup="RegisterVG" />
-                    <asp:RequiredFieldValidator ID="reqSociety" runat="server" ControlToValidate="ddlSociety"
-                        ErrorMessage="Society is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="ddlBuilding">Select Building</label>
-                    <asp:DropDownList ID="ddlBuilding" runat="server" CssClass="form-control" ValidationGroup="RegisterVG" />
-                    <asp:RequiredFieldValidator ID="reqBuilding" runat="server" ControlToValidate="ddlBuilding"
-                        ErrorMessage="Building is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
-                </div>
-
+                <asp:UpdatePanel ID="updSocietyBuilding" runat="server">
+                    <ContentTemplate>
+                        <!-- Society Dropdown -->
+                        <div class="form-group">
+                            <label class="form-label" for="ddlSociety">Select Society</label>
+                            <asp:DropDownList ID="ddlSociety" runat="server"
+                                CssClass="form-control"
+                                AutoPostBack="true"
+                                OnSelectedIndexChanged="ddlSociety_SelectedIndexChanged"
+                                ValidationGroup="RegisterVG" />
+                            <asp:RequiredFieldValidator ID="reqSociety" runat="server" ControlToValidate="ddlSociety"
+                                ErrorMessage="Society is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
+                        </div>
+                        <!-- Building Dropdown -->
+                        <div class="form-group">
+                            <label class="form-label" for="ddlBuilding">Select Building</label>
+                            <asp:DropDownList ID="ddlBuilding" runat="server" CssClass="form-control" ValidationGroup="RegisterVG" />
+                            <asp:RequiredFieldValidator ID="reqBuilding" runat="server" ControlToValidate="ddlBuilding"
+                                ErrorMessage="Building is required." CssClass="validation-message" ValidationGroup="RegisterVG" Display="Dynamic" />
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
 
                 <div class="form-group">
                     <label class="form-label" for="ddlOccupancyType">Occupancy Type</label>

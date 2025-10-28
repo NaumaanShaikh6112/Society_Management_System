@@ -24,6 +24,15 @@ namespace Society_Management_System.Account
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+
+        /// <summary>
         /// lnkBackHome control.
         /// </summary>
         /// <remarks>
@@ -166,6 +175,15 @@ namespace Society_Management_System.Account
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator reqFlatNo;
+
+        /// <summary>
+        /// updSocietyBuilding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updSocietyBuilding;
 
         /// <summary>
         /// ddlSociety control.
