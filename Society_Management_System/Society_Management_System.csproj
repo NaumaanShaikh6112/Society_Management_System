@@ -68,13 +68,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Account\DataBaseSQL\Insertdummy.txt" />
-    <Content Include="Account\DataBaseSQL\Reeseed.txt" />
-    <Content Include="Account\DataBaseSQL\Select.txt" />
-    <Content Include="Account\DataBaseSQL\StoreProcedures.txt" />
-    <Content Include="Account\DataBaseSQL\Tables.txt" />
+    <Content Include="DataBaseSQL\Insertdummy.txt" />
+    <Content Include="DataBaseSQL\Reeseed.txt" />
+    <Content Include="DataBaseSQL\Select.txt" />
+    <Content Include="DataBaseSQL\StoreProcedures.txt" />
+    <Content Include="DataBaseSQL\Tables.txt" />
     <Content Include="Account\Logout.aspx" />
-    <Content Include="Account\Register.aspx" />
+    <Content Include="Admin\Register.aspx" />
     <Content Include="Admin\AdminDashboard.aspx" />
     <Content Include="Admin\AddPayment.aspx" />
     <Content Include="Admin\ManageAnnouncements.aspx" />
@@ -92,6 +92,7 @@
     <Content Include="Account\Login.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Member\MemberDashboard.aspx" />
+    <Content Include="Member\MyBills.aspx" />
     <Content Include="Member\MyProfile.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -103,11 +104,11 @@
     <Compile Include="Account\Logout.aspx.designer.cs">
       <DependentUpon>Logout.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Account\Register.aspx.cs">
+    <Compile Include="Admin\Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Account\Register.aspx.designer.cs">
+    <Compile Include="Admin\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Admin.Master.cs">
@@ -238,6 +239,13 @@
     </Compile>
     <Compile Include="Member\MemberDashboard.aspx.designer.cs">
       <DependentUpon>MemberDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\MyBills.aspx.cs">
+      <DependentUpon>MyBills.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\MyBills.aspx.designer.cs">
+      <DependentUpon>MyBills.aspx</DependentUpon>
     </Compile>
     <Compile Include="Member\MyProfile.aspx.cs">
       <DependentUpon>MyProfile.aspx</DependentUpon>

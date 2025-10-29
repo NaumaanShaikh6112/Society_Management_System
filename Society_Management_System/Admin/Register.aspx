@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="Society_Management_System.Account.Register" %>
+﻿<%@  Page Language="C#" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="Society_Management_System.Admin.Register" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -331,7 +331,7 @@
                 <asp:ValidationSummary ID="valSummary" runat="server" CssClass="validation-message"
                     ValidationGroup="RegisterVG" DisplayMode="BulletList" />
 
-                <!-- 🧩 Row 1: Full Name + Email -->
+                <!-- 🧩 Row 1: Full Name + Username -->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -346,6 +346,26 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label" for="txtUsername">Username</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user-circle input-icon"></i>
+                                <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" Placeholder="Choose a username" />
+                            </div>
+                            <asp:RequiredFieldValidator ID="reqUsername" runat="server" ControlToValidate="txtUsername"
+                                ErrorMessage="Username is required." CssClass="validation-message"
+                                ValidationGroup="RegisterVG" Display="Dynamic" />
+                            <asp:RegularExpressionValidator ID="revUsername" runat="server" ControlToValidate="txtUsername"
+                                ErrorMessage="Username must be 3–20 characters long (letters, numbers, underscores only)."
+                                CssClass="validation-message" ValidationGroup="RegisterVG"
+                                ValidationExpression="^[a-zA-Z0-9_]{3,20}$" Display="Dynamic" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🧩 Row 2: Email + Mobile -->
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label" for="txtEmail">Email</label>
@@ -363,10 +383,7 @@
                                 ValidationExpression="^[\w\.\-]+@([\w\-]+\.)+[a-zA-Z]{2,}$" Display="Dynamic" />
                         </div>
                     </div>
-                </div>
 
-                <!-- 🧩 Row 2: Mobile + Flat -->
-                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label" for="txtMobile">Mobile Number</label>
@@ -383,8 +400,9 @@
                                 ValidationExpression="^\+?[0-9]{7,15}$" Display="Dynamic" />
                         </div>
                     </div>
+                </div>
 
-                    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
                         <ContentTemplate>
 
                             <!-- 🔹 Society -->
@@ -488,9 +506,9 @@
                     <!-- 🧩 Footer -->
                     <div class="form-footer">
                         <p>
-                            Already have an account?
-                        <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/Account/Login.aspx">
-                            Sign in
+                           Go To Dashboard
+                        <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/Admin/AdminDashboard.aspx">
+                            Go Back
                         </asp:HyperLink>
                         </p>
                     </div>

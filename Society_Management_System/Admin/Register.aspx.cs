@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 
-namespace Society_Management_System.Account
+namespace Society_Management_System.Admin
 {
     public partial class Register : System.Web.UI.Page
     {
@@ -123,7 +123,7 @@ namespace Society_Management_System.Account
             string fullName = txtFullName.Text.Trim();
             string email = txtEmail.Text.Trim();
             string phone = txtMobile.Text.Trim();
-            string username = email;
+            string username = txtUsername.Text.Trim();
             string password = txtPassword.Text.Trim();
             string occupancyType = ddlOccupancyType.SelectedValue;
 
