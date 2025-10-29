@@ -76,6 +76,14 @@
     <Content Include="Account\Logout.aspx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="Admin\AdminDashboard.aspx" />
+    <Content Include="Admin\AddPayment.aspx" />
+    <Content Include="Admin\ManageAnnouncements.aspx" />
+    <Content Include="Admin\ManageBills.aspx" />
+    <Content Include="Admin\ManageComplaints.aspx" />
+    <Content Include="Admin\ManageExpenses.aspx" />
+    <Content Include="Admin\ManagePayments.aspx" />
+    <Content Include="Admin\ManageVehicles.aspx" />
+    <Content Include="Admin\ManageVendors.aspx" />
     <Content Include="Admin\ManageBuildings.aspx" />
     <Content Include="Admin\ManageMembers.aspx" />
     <Content Include="Admin\ManageSocieties.aspx" />
@@ -115,6 +123,62 @@
     </Compile>
     <Compile Include="Admin\AdminDashboard.aspx.designer.cs">
       <DependentUpon>AdminDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AddPayment.aspx.cs">
+      <DependentUpon>AddPayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AddPayment.aspx.designer.cs">
+      <DependentUpon>AddPayment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageAnnouncements.aspx.cs">
+      <DependentUpon>ManageAnnouncements.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageAnnouncements.aspx.designer.cs">
+      <DependentUpon>ManageAnnouncements.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageBills.aspx.cs">
+      <DependentUpon>ManageBills.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageBills.aspx.designer.cs">
+      <DependentUpon>ManageBills.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageComplaints.aspx.cs">
+      <DependentUpon>ManageComplaints.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageComplaints.aspx.designer.cs">
+      <DependentUpon>ManageComplaints.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageExpenses.aspx.cs">
+      <DependentUpon>ManageExpenses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageExpenses.aspx.designer.cs">
+      <DependentUpon>ManageExpenses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManagePayments.aspx.cs">
+      <DependentUpon>ManagePayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManagePayments.aspx.designer.cs">
+      <DependentUpon>ManagePayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageVehicles.aspx.cs">
+      <DependentUpon>ManageVehicles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageVehicles.aspx.designer.cs">
+      <DependentUpon>ManageVehicles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageVendors.aspx.cs">
+      <DependentUpon>ManageVendors.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageVendors.aspx.designer.cs">
+      <DependentUpon>ManageVendors.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\ManageBuildings.aspx.cs">
       <DependentUpon>ManageBuildings.aspx</DependentUpon>
