@@ -271,3 +271,28 @@ FOREIGN KEY (user_id) REFERENCES users(user_id)
 ALTER TABLE units
 ADD CONSTRAINT UQ_unit_building UNIQUE (unit_no, building_id);
 -- THIS TABLE IS ALTERED SO THAT IN EACH BUILDING UNIT NO IS UNIQUE (like A-101) allowed in different buildings, but not repeated in same building
+
+ALTER TABLE buildings
+ADD prefix CHAR(1) NULL;
+
+
+SELECT name, type_desc
+FROM sys.objects
+WHERE name = 'UQ_unit_building';
+
+
+CREATE OR ALTER TRIGGER trg_AutoAssignBuildingPrefix
+ON buildings
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE b
+    SET b.prefix = CHAR(64 + b.building_id)  -- 65=A, 66=B, 67=C etc.
+    FROM buildings b
+    INNER JOIN inserted i ON b.building_id = i.building_id;
+END;
+GO
+
+
