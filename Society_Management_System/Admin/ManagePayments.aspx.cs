@@ -1,95 +1,138 @@
 ﻿using System;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Data;
 using System.Data.SqlClient;
+using System.Web.UI.WebControls;
 
 namespace Society_Management_System.Admin
 {
-    public partial class ManagePayments : Page
+    public partial class ManagePayments : System.Web.UI.Page
     {
-        string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["societyDB"].ConnectionString;
+        private static readonly string ConnStr = System.Configuration.ConfigurationManager.ConnectionStrings["SocietyDB"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                LoadPayments();
+                LoadUnpaidBills();
+                LoadRecentPayments();
             }
         }
 
-        // ✅ Load Payments from database into GridView
-        private void LoadPayments()
+        private void LoadUnpaidBills()
         {
-            string query = "SELECT payment_id, bill_id, paid_on, amount, mode, reference_no FROM payments";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection con = new SqlConnection(ConnStr))
             {
-                SqlCommand cmd = new SqlCommand(query, conn);
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                gvPayments.DataSource = reader;
-                gvPayments.DataBind();
+                string query = @"
+                    SELECT bill_id, CONCAT('BillID: ', bill_id, ', Society: ', s.name, ', Unit: ', u.unit_no, ', Due: ', FORMAT(due_date, 'yyyy-MM-dd')) AS BillDescription
+                    FROM maintenance_bills MB
+                    INNER JOIN societies s ON MB.society_id = s.society_id
+                    INNER JOIN units u ON MB.unit_id = u.unit_id
+                    WHERE status IN ('Unpaid', 'Partially Paid')
+                    ORDER BY due_date";
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                DdlBills.DataSource = dt;
+                DdlBills.DataTextField = "BillDescription";
+                DdlBills.DataValueField = "bill_id";
+                DdlBills.DataBind();
+                DdlBills.Items.Insert(0, new ListItem("-- Select Bill --", "0"));
             }
         }
 
-        // ✅ Add Payment - Redirect to AddPayment.aspx
-        protected void btnAddPayment_Click(object sender, EventArgs e)
+        private void LoadRecentPayments()
         {
-            Response.Redirect("AddPayment.aspx");
-        }
-
-        // ✅ Handle Edit and Delete Commands
-        protected void gvPayments_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            int paymentId = Convert.ToInt32(e.CommandArgument);
-
-            if (e.CommandName == "EditPayment")
+            using (SqlConnection con = new SqlConnection(ConnStr))
             {
-                Response.Redirect($"EditPayment.aspx?payment_id={paymentId}");
-            }
-            else if (e.CommandName == "DeletePayment")
-            {
-                DeletePayment(paymentId);
+                string query = @"
+                    SELECT payment_id, bill_id, paid_on, amount, mode, reference_no
+                    FROM payments
+                    ORDER BY paid_on DESC";
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                GvPayments.DataSource = dt;
+                GvPayments.DataBind();
             }
         }
 
-        // ✅ Delete Payment from database
-        private void DeletePayment(int paymentId)
+        protected void BtnRecordPayment_Click(object sender, EventArgs e)
         {
-            string query = "DELETE FROM payments WHERE payment_id = @payment_id";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            if (DdlBills.SelectedIndex == 0)
             {
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@payment_id", paymentId);
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                LblMessage.Text = "Please select a bill to record payment.";
+                return;
             }
 
-            LoadPayments();
-        }
-
-        // ✅ Optional: Insert Payment (if needed for AddPayment.aspx)
-        protected void InsertPayment(int billId, DateTime paidOn, decimal amount, string mode)
-        {
-            string query = @"
-                INSERT INTO payments (bill_id, paid_on, amount, mode, reference_no)
-                VALUES (@bill_id, @paid_on, @amount, @mode, @reference_no)";
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            if (!decimal.TryParse(TxtAmount.Text, out decimal amount) || amount <= 0)
             {
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@bill_id", billId);
-                cmd.Parameters.AddWithValue("@paid_on", paidOn);
-                cmd.Parameters.AddWithValue("@amount", amount);
-                cmd.Parameters.AddWithValue("@mode", mode);
-                cmd.Parameters.AddWithValue("@reference_no", Guid.NewGuid().ToString()); // ✅ Ensures uniqueness
-
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                LblMessage.Text = "Please enter a valid payment amount.";
+                return;
             }
 
-            LoadPayments();
+            long billId = Convert.ToInt64(DdlBills.SelectedValue);
+            string mode = DdlPaymentMode.SelectedValue;
+            string reference = TxtReference.Text;
+            DateTime paidOn = DateTime.Now;
+
+            using (SqlConnection con = new SqlConnection(ConnStr))
+            {
+                con.Open();
+                SqlTransaction trans = con.BeginTransaction();
+
+                try
+                {
+                    // Insert payment record
+                    string insertPaymentSql = @"
+                        INSERT INTO payments (bill_id, paid_on, amount, mode, reference_no)
+                        VALUES (@bill_id, @paid_on, @amount, @mode, @reference)";
+                    using (SqlCommand cmd = new SqlCommand(insertPaymentSql, con, trans))
+                    {
+                        cmd.Parameters.AddWithValue("@bill_id", billId);
+                        cmd.Parameters.AddWithValue("@paid_on", paidOn);
+                        cmd.Parameters.AddWithValue("@amount", amount);
+                        cmd.Parameters.AddWithValue("@mode", mode);
+                        cmd.Parameters.AddWithValue("@reference", string.IsNullOrEmpty(reference) ? DBNull.Value : (object)reference);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // Update maintenance_bills status based on payments sum versus total_amount
+
+                    string updateStatusSql = @"
+                        UPDATE maintenance_bills
+                        SET status =
+                            CASE
+                                WHEN (SELECT ISNULL(SUM(amount), 0) FROM payments WHERE bill_id = @bill_id) >= total_amount THEN 'Paid'
+                                WHEN (SELECT ISNULL(SUM(amount), 0) FROM payments WHERE bill_id = @bill_id) > 0 THEN 'Partially Paid'
+                                ELSE 'Unpaid'
+                            END
+                        WHERE bill_id = @bill_id";
+
+                    using (SqlCommand cmd = new SqlCommand(updateStatusSql, con, trans))
+                    {
+                        cmd.Parameters.AddWithValue("@bill_id", billId);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    trans.Commit();
+
+                    LoadUnpaidBills();
+                    LoadRecentPayments();
+
+                    LblMessage.Text = "Payment recorded successfully.";
+
+                    DdlBills.SelectedIndex = 0;
+                    TxtAmount.Text = "";
+                    TxtReference.Text = "";
+                }
+                catch (Exception ex)
+                {
+                    trans.Rollback();
+                    LblMessage.Text = "Payment recording failed: " + ex.Message;
+                }
+            }
         }
     }
 }

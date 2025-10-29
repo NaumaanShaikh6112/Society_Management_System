@@ -9,7 +9,7 @@ namespace Society_Management_System.Admin
 {
     public partial class ManageBills : System.Web.UI.Page
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["societyDB"].ConnectionString;
+        private string connectionString = ConfigurationManager.ConnectionStrings["societyDB"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
