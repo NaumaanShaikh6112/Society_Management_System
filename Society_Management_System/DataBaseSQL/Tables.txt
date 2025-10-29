@@ -288,11 +288,31 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    UPDATE b
-    SET b.prefix = CHAR(64 + b.building_id)  -- 65=A, 66=B, 67=C etc.
-    FROM buildings b
-    INNER JOIN inserted i ON b.building_id = i.building_id;
+    DECLARE @building_id BIGINT, @floors INT, @prefix CHAR(1), @i INT = 1;
+
+    -- Step 1: Get newly inserted building details
+    SELECT @building_id = i.building_id, @floors = i.floors
+    FROM inserted i;
+
+    -- Step 2: Assign prefix based on building_id
+    SET @prefix = CHAR(64 + @building_id);
+
+    UPDATE buildings
+    SET prefix = @prefix
+    WHERE building_id = @building_id;
+
+    -- Step 3: Generate units dynamically based on floors
+    WHILE @i <= @floors
+    BEGIN
+        DECLARE @unitNo NVARCHAR(10) = CONCAT(@prefix, '-', RIGHT('00' + CAST(@i AS VARCHAR(3)), 3));
+
+        INSERT INTO units (building_id, unit_no, floor_no, carpet_area_sqft, is_parking_allocated)
+        VALUES (@building_id, @unitNo, @i, 850, 1);
+
+        SET @i += 1;
+    END;
 END;
 GO
+
 
 

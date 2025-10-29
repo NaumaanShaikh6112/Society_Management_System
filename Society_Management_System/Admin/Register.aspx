@@ -1,4 +1,4 @@
-﻿<%@  Page Language="C#" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="Society_Management_System.Admin.Register" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Register.aspx.cs" Inherits="Society_Management_System.Admin.Register" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -301,7 +301,7 @@
         <!-- 🔙 Back to Home -->
         <div class="back-home">
             <asp:HyperLink ID="lnkBackHome" runat="server" NavigateUrl="~/Default.aspx" CssClass="btn-back">
-                <i class="fas fa-arrow-left"></i> Back to Home
+                    <i class="fas fa-arrow-left"></i> Back to Home
             </asp:HyperLink>
         </div>
 
@@ -402,118 +402,124 @@
                     </div>
                 </div>
 
-                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
-                        <ContentTemplate>
+                 <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                    <ContentTemplate>
 
-                            <!-- 🔹 Society -->
-                            <div class="form-group">
-                                <label for="ddlSociety">Select Society</label>
-                                <asp:DropDownList ID="ddlSociety" runat="server"
-                                    CssClass="form-control"
-                                    AutoPostBack="true"
-                                    AppendDataBoundItems="true"
-                                    OnSelectedIndexChanged="ddlSociety_SelectedIndexChanged">
-                                    <asp:ListItem Text="-- Select Society --" Value="" />
-                                </asp:DropDownList>
-                            </div>
-
-                            <!-- 🔹 Building -->
-                            <div class="form-group">
-                                <label for="ddlBuilding">Select Building</label>
-                                <asp:DropDownList ID="ddlBuilding" runat="server"
-                                    CssClass="form-control"
-                                    AutoPostBack="true"
-                                    AppendDataBoundItems="true"
-                                    OnSelectedIndexChanged="ddlBuilding_SelectedIndexChanged">
-                                    <asp:ListItem Text="-- Select Building --" Value="" />
-                                </asp:DropDownList>
-                            </div>
-
-                            <!-- 🔹 Unit -->
-                            <div class="form-group">
-                                <label for="ddlUnit">Select Unit / Flat No.</label>
-                                <asp:DropDownList ID="ddlUnit" runat="server"
-                                    CssClass="form-control"
-                                    AppendDataBoundItems="true">
-                                    <asp:ListItem Text="-- Select Unit --" Value="" />
-                                </asp:DropDownList>
-                            </div>
-
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
-
-
-                    <div class="form-group">
-                        <label class="form-label" for="ddlOccupancyType">Occupancy Type</label>
-                        <asp:DropDownList ID="ddlOccupancyType" runat="server" CssClass="form-control">
-                            <asp:ListItem Text="Select" Value="" />
-                            <asp:ListItem Text="Owner" Value="Owner" />
-                            <asp:ListItem Text="Tenant" Value="Tenant" />
-                            <asp:ListItem Text="Vacant" Value="Vacant" />
-                        </asp:DropDownList>
-                        <asp:RequiredFieldValidator ID="reqOccupancyType" runat="server" ControlToValidate="ddlOccupancyType"
-                            ErrorMessage="Occupancy type is required." CssClass="validation-message"
-                            ValidationGroup="RegisterVG" Display="Dynamic" />
-                    </div>
-
-                    <!-- Hidden Role Field -->
-                    <asp:HiddenField ID="hdnRoleId" runat="server" Value="2" />
-
-                    <!-- 🧩 Row 3: Passwords -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label" for="txtPassword">Password</label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-lock input-icon"></i>
-                                    <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control"
-                                        TextMode="Password" Placeholder="••••••••" />
-                                </div>
-                                <asp:RequiredFieldValidator ID="reqPassword" runat="server" ControlToValidate="txtPassword"
-                                    ErrorMessage="Password is required." CssClass="validation-message"
-                                    ValidationGroup="RegisterVG" Display="Dynamic" />
-                                <asp:RegularExpressionValidator ID="revPassword" runat="server" ControlToValidate="txtPassword"
-                                    ErrorMessage="Password must be at least 6 characters." CssClass="validation-message"
-                                    ValidationGroup="RegisterVG" ValidationExpression="^.{6,}$" Display="Dynamic" />
-                            </div>
+                        <!-- 🔹 Society -->
+                        <div class="form-group">
+                            <label for="ddlSociety">Select Society</label>
+                            <asp:DropDownList ID="ddlSociety" runat="server"
+                                CssClass="form-control"
+                                AutoPostBack="true"
+                                AppendDataBoundItems="true"
+                                OnSelectedIndexChanged="ddlSociety_SelectedIndexChanged">
+                                <asp:ListItem Text="-- Select Society --" Value="" />
+                            </asp:DropDownList>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label" for="txtConfirmPassword">Confirm Password</label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-lock input-icon"></i>
-                                    <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control"
-                                        TextMode="Password" Placeholder="••••••••" />
-                                </div>
-                                <asp:RequiredFieldValidator ID="reqConfirmPassword" runat="server"
-                                    ControlToValidate="txtConfirmPassword"
-                                    ErrorMessage="Please confirm your password." CssClass="validation-message"
-                                    ValidationGroup="RegisterVG" Display="Dynamic" />
-                                <asp:CompareValidator ID="cmpPasswords" runat="server"
-                                    ControlToValidate="txtConfirmPassword"
-                                    ControlToCompare="txtPassword"
-                                    ErrorMessage="Passwords do not match." CssClass="validation-message"
-                                    ValidationGroup="RegisterVG" Display="Dynamic" />
+                        <!-- 🔹 Building -->
+                        <div class="form-group">
+                            <label for="ddlBuilding">Select Building</label>
+                            <asp:DropDownList ID="ddlBuilding" runat="server"
+                                CssClass="form-control"
+                                AutoPostBack="true"
+                                AppendDataBoundItems="true"
+                                OnSelectedIndexChanged="ddlBuilding_SelectedIndexChanged">
+                                <asp:ListItem Text="-- Select Building --" Value="" />
+                            </asp:DropDownList>
+                        </div>
+
+                        <!-- 🔹 Unit -->
+                        <div class="form-group">
+                            <label for="ddlUnit">Select Unit / Flat No.</label>
+                            <asp:DropDownList ID="ddlUnit" runat="server"
+                                CssClass="form-control"
+                                AppendDataBoundItems="true">
+                                <asp:ListItem Text="-- Select Unit --" Value="" />
+                            </asp:DropDownList>
+                        </div>
+
+                    </ContentTemplate>
+
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="ddlSociety" EventName="SelectedIndexChanged" />
+                        <asp:AsyncPostBackTrigger ControlID="ddlBuilding" EventName="SelectedIndexChanged" />
+                    </Triggers>
+                </asp:UpdatePanel>
+
+
+
+                <div class="form-group">
+                    <label class="form-label" for="ddlOccupancyType">Occupancy Type</label>
+                    <asp:DropDownList ID="ddlOccupancyType" runat="server" CssClass="form-control">
+                        <asp:ListItem Text="Select" Value="" />
+                        <asp:ListItem Text="Owner" Value="Owner" />
+                        <asp:ListItem Text="Tenant" Value="Tenant" />
+                        <asp:ListItem Text="Vacant" Value="Vacant" />
+                    </asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="reqOccupancyType" runat="server" ControlToValidate="ddlOccupancyType"
+                        ErrorMessage="Occupancy type is required." CssClass="validation-message"
+                        ValidationGroup="RegisterVG" Display="Dynamic" />
+                </div>
+
+                <!-- Hidden Role Field -->
+                <asp:HiddenField ID="hdnRoleId" runat="server" Value="2" />
+
+                <!-- 🧩 Row 3: Passwords -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label" for="txtPassword">Password</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock input-icon"></i>
+                                <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control"
+                                    TextMode="Password" Placeholder="••••••••" />
                             </div>
+                            <asp:RequiredFieldValidator ID="reqPassword" runat="server" ControlToValidate="txtPassword"
+                                ErrorMessage="Password is required." CssClass="validation-message"
+                                ValidationGroup="RegisterVG" Display="Dynamic" />
+                            <asp:RegularExpressionValidator ID="revPassword" runat="server" ControlToValidate="txtPassword"
+                                ErrorMessage="Password must be at least 6 characters." CssClass="validation-message"
+                                ValidationGroup="RegisterVG" ValidationExpression="^.{6,}$" Display="Dynamic" />
                         </div>
                     </div>
 
-                    <!-- 🧩 Register Button -->
-                    <asp:Button ID="btnRegister" runat="server" CssClass="btn-register"
-                        Text="Create Account" OnClick="btnRegister_Click" ValidationGroup="RegisterVG" />
-
-                    <!-- 🧩 Footer -->
-                    <div class="form-footer">
-                        <p>
-                           Go To Dashboard
-                        <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/Admin/AdminDashboard.aspx">
-                            Go Back
-                        </asp:HyperLink>
-                        </p>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label" for="txtConfirmPassword">Confirm Password</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock input-icon"></i>
+                                <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control"
+                                    TextMode="Password" Placeholder="••••••••" />
+                            </div>
+                            <asp:RequiredFieldValidator ID="reqConfirmPassword" runat="server"
+                                ControlToValidate="txtConfirmPassword"
+                                ErrorMessage="Please confirm your password." CssClass="validation-message"
+                                ValidationGroup="RegisterVG" Display="Dynamic" />
+                            <asp:CompareValidator ID="cmpPasswords" runat="server"
+                                ControlToValidate="txtConfirmPassword"
+                                ControlToCompare="txtPassword"
+                                ErrorMessage="Passwords do not match." CssClass="validation-message"
+                                ValidationGroup="RegisterVG" Display="Dynamic" />
+                        </div>
                     </div>
                 </div>
+
+                <!-- 🧩 Register Button -->
+                <asp:Button ID="btnRegister" runat="server" CssClass="btn-register"
+                    Text="Create Account" OnClick="btnRegister_Click" ValidationGroup="RegisterVG" />
+
+                <!-- 🧩 Footer -->
+                <div class="form-footer">
+                    <p>
+                        Go To Dashboard
+                            <asp:HyperLink ID="lnkLogin" runat="server" NavigateUrl="~/Admin/AdminDashboard.aspx">
+                                Go Back
+                            </asp:HyperLink>
+                    </p>
+                </div>
             </div>
+        </div>
     </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

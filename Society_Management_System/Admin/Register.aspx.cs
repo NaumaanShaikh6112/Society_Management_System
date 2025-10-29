@@ -17,13 +17,13 @@ namespace Society_Management_System.Admin
                 BindSocieties();
                 BindOccupancyTypes();
 
-                ddlSociety.Items.Insert(0, new ListItem("Select Society", ""));
-                ddlBuilding.Items.Insert(0, new ListItem("Select Building", ""));
-                ddlUnit.Items.Insert(0, new ListItem("Select Unit", ""));
+                ddlSociety.Items.Insert(0, new ListItem("-- Select Society --", ""));
+                ddlBuilding.Items.Insert(0, new ListItem("-- Select Building --", ""));
+                ddlUnit.Items.Insert(0, new ListItem("-- Select Unit --", ""));
             }
         }
 
-        // ✅ 1. Bind all societies
+        // ✅ 1. Bind Societies
         private void BindSocieties()
         {
             using (SqlConnection conn = new SqlConnection(conStr))
@@ -32,68 +32,77 @@ namespace Society_Management_System.Admin
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 ddlSociety.DataSource = reader;
-                ddlSociety.DataTextField = "name";       // ✅ column name: name
+                ddlSociety.DataTextField = "name";
                 ddlSociety.DataValueField = "society_id";
                 ddlSociety.DataBind();
             }
         }
 
-        // ✅ 2. Bind buildings based on selected society
+        // ✅ 2. Bind Buildings based on Society
         private void BindBuildings(long societyId)
         {
             using (SqlConnection conn = new SqlConnection(conStr))
             {
-                // 🏢 column name in DB is "name", not "building_name"
-                SqlCommand cmd = new SqlCommand("SELECT building_id, name FROM buildings WHERE society_id = @society_id", conn);
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT building_id, name FROM buildings WHERE society_id = @society_id", conn);
                 cmd.Parameters.AddWithValue("@society_id", societyId);
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 ddlBuilding.DataSource = reader;
-                ddlBuilding.DataTextField = "name";       // ✅ correct column
+                ddlBuilding.DataTextField = "name";
                 ddlBuilding.DataValueField = "building_id";
                 ddlBuilding.DataBind();
             }
+
+            ddlBuilding.Items.Insert(0, new ListItem("-- Select Building --", ""));
         }
 
-        // ✅ 3. Bind units based on selected building
+        // ✅ 3. Bind Available Units dynamically
         private void BindUnits(long buildingId)
         {
-            using (SqlConnection con = new SqlConnection(conStr))
+            using (SqlConnection conn = new SqlConnection(conStr))
             {
-                string query = @"SELECT unit_id, unit_no FROM units WHERE building_id = @building_id";
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@building_id", buildingId);
+                // Shows only units not occupied
+                string query = @"
+SELECT u.unit_no
+FROM units u
+LEFT JOIN unit_occupancies o
+    ON u.unit_id = o.unit_id AND o.end_date IS NULL
+WHERE u.building_id = @building_id
+  AND o.unit_id IS NULL
+ORDER BY u.unit_no";
 
-                con.Open();
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@building_id", buildingId);
+                conn.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 ddlUnit.DataSource = rdr;
                 ddlUnit.DataTextField = "unit_no";
-                ddlUnit.DataValueField = "unit_id";
+                ddlUnit.DataValueField = "unit_no"; // ✅ unit_no goes to stored proc
                 ddlUnit.DataBind();
             }
 
-            ddlUnit.Items.Insert(0, new ListItem("Select Unit", ""));
+            ddlUnit.Items.Insert(0, new ListItem("-- Select Unit --", ""));
         }
 
-        // ✅ 4. Bind Occupancy types manually
+        // ✅ 4. Occupancy Types
         private void BindOccupancyTypes()
         {
             ddlOccupancyType.Items.Clear();
-            ddlOccupancyType.Items.Add(new ListItem("Select Occupancy Type", ""));
+            ddlOccupancyType.Items.Add(new ListItem("-- Select Occupancy Type --", ""));
             ddlOccupancyType.Items.Add(new ListItem("Owner", "Owner"));
             ddlOccupancyType.Items.Add(new ListItem("Tenant", "Tenant"));
-            ddlOccupancyType.Items.Add(new ListItem("Vacant", "Vacant"));
         }
 
-        // ✅ 5. When Society changes → Bind buildings
+        // ✅ 5. When Society Changes
         protected void ddlSociety_SelectedIndexChanged(object sender, EventArgs e)
         {
             ddlBuilding.Items.Clear();
             ddlUnit.Items.Clear();
 
-            ddlBuilding.Items.Insert(0, new ListItem("Select Building", ""));
-            ddlUnit.Items.Insert(0, new ListItem("Select Unit", ""));
+            ddlBuilding.Items.Insert(0, new ListItem("-- Select Building --", ""));
+            ddlUnit.Items.Insert(0, new ListItem("-- Select Unit --", ""));
 
             if (!string.IsNullOrEmpty(ddlSociety.SelectedValue))
             {
@@ -102,11 +111,11 @@ namespace Society_Management_System.Admin
             }
         }
 
-        // ✅ 6. When Building changes → Bind units
+        // ✅ 6. When Building Changes
         protected void ddlBuilding_SelectedIndexChanged(object sender, EventArgs e)
         {
             ddlUnit.Items.Clear();
-            ddlUnit.Items.Insert(0, new ListItem("Select Unit", ""));
+            ddlUnit.Items.Insert(0, new ListItem("-- Select Unit --", ""));
 
             if (!string.IsNullOrEmpty(ddlBuilding.SelectedValue))
             {
@@ -115,11 +124,9 @@ namespace Society_Management_System.Admin
             }
         }
 
-        // ✅ 7. Register button click
+        // ✅ 7. Register Button Click
         protected void btnRegister_Click(object sender, EventArgs e)
         {
-            if (!Page.IsValid) return;
-
             string fullName = txtFullName.Text.Trim();
             string email = txtEmail.Text.Trim();
             string phone = txtMobile.Text.Trim();
@@ -132,25 +139,22 @@ namespace Society_Management_System.Admin
                 string.IsNullOrEmpty(ddlUnit.SelectedValue))
             {
                 pnlError.Visible = true;
-                lblError.Text = "⚠️ Please select Society, Building, and Unit properly.";
+                lblError.Text = "⚠️ Please select Society, Building, and Unit.";
                 return;
             }
 
             long societyId = Convert.ToInt64(ddlSociety.SelectedValue);
             long buildingId = Convert.ToInt64(ddlBuilding.SelectedValue);
-            string unitNo = ddlUnit.SelectedItem.Text; // ✅ fetch actual unit number (text)
-            int roleId = 2; // Default: Member role
+            string unitNo = ddlUnit.SelectedValue; // ✅ matches @unit_no parameter
+            int roleId = 2; // Member
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(conStr))
                 {
-                    conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("sp_RegisterUser", conn)) // ✅ correct proc name
+                    using (SqlCommand cmd = new SqlCommand("sp_RegisterUser", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-
-                        // 🔹 Match exactly with stored procedure parameters
                         cmd.Parameters.AddWithValue("@full_name", fullName);
                         cmd.Parameters.AddWithValue("@email", email);
                         cmd.Parameters.AddWithValue("@phone", phone);
@@ -162,24 +166,19 @@ namespace Society_Management_System.Admin
                         cmd.Parameters.AddWithValue("@unit_no", unitNo);
                         cmd.Parameters.AddWithValue("@occupancy_type", occupancyType);
 
+                        conn.Open();
                         cmd.ExecuteNonQuery();
-
-                        pnlSuccess.Visible = true;
-                        lblSuccess.Text = "🎉 Registration successful! You can now login.";
-                        pnlError.Visible = false;
                     }
                 }
-            }
-            catch (SqlException sqlEx)
-            {
-                pnlError.Visible = true;
-                lblError.Text = "⚠️ Database error: " + sqlEx.Message;
-                pnlSuccess.Visible = false;
+
+                pnlSuccess.Visible = true;
+                lblSuccess.Text = "🎉 Registration successful!";
+                pnlError.Visible = false;
             }
             catch (Exception ex)
             {
                 pnlError.Visible = true;
-                lblError.Text = "❌ Unexpected error: " + ex.Message;
+                lblError.Text = "❌ Error: " + ex.Message;
                 pnlSuccess.Visible = false;
             }
         }
