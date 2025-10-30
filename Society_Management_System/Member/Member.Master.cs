@@ -20,7 +20,7 @@ namespace Society_Management_System.Member
             con.Open();
 
             // Session Check for Member Role
-            if (Session["user_id"] == null )
+            if (Session["user_id"] == null)
             {
                 // If session is invalid or not a member, redirect to Login
                 Response.Redirect("~/Account/Login.aspx?msg=session_expired_member");
@@ -31,6 +31,9 @@ namespace Society_Management_System.Member
             {
                 LoadMemberName();
                 SetActiveLink();
+                //  Declare userId before calling LoadNotificationCount
+                int userId = Convert.ToInt32(Session["user_id"]);
+                LoadNotificationCount(userId);
             }
         }
 
@@ -62,7 +65,7 @@ namespace Society_Management_System.Member
                         }
                         else
                         {
-                             lblUserName.Text = "Member"; // Fallback
+                            lblUserName.Text = "Member"; // Fallback
                         }
                     }
                 }
@@ -73,7 +76,6 @@ namespace Society_Management_System.Member
                 lblUserName.Text = "Member"; // Fallback on error
             }
         }
-
 
         // Helper method to highlight the active page in the sidebar
         private void SetActiveLink()
@@ -92,6 +94,24 @@ namespace Society_Management_System.Member
                 case "announcements.aspx": lnkAnnouncements.CssClass += " active"; break;
             }
         }
+
+        private void LoadNotificationCount(int userId)
+        {
+            string cs = ConfigurationManager.ConnectionStrings["societyDB"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                string query = "SELECT COUNT(*) FROM notifications WHERE user_id = @user_id AND is_read = 0";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@user_id", userId);
+
+                con.Open();
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                con.Close();
+
+                // ✅ Show only if greater than zero
+                lblNotifCount.Text = count > 0 ? count.ToString() : "";
+            }
+        }
     }
 }
-

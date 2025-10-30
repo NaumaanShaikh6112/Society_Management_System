@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin\ManageNotifications.aspx" />
     <Content Include="DataBaseSQL\Insertdummy.txt" />
     <Content Include="DataBaseSQL\Reeseed.txt" />
     <Content Include="DataBaseSQL\Select.txt" />
@@ -100,6 +101,7 @@
     <Content Include="Member\MemberDashboard.aspx" />
     <Content Include="Member\MyBills.aspx" />
     <Content Include="Member\MyProfile.aspx" />
+    <Content Include="Member\ViewNotifications.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +111,13 @@
     </Compile>
     <Compile Include="Account\Logout.aspx.designer.cs">
       <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ManageNotifications.aspx.cs">
+      <DependentUpon>ManageNotifications.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ManageNotifications.aspx.designer.cs">
+      <DependentUpon>ManageNotifications.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
@@ -259,6 +268,13 @@
     </Compile>
     <Compile Include="Member\MyProfile.aspx.designer.cs">
       <DependentUpon>MyProfile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Member\ViewNotifications.aspx.cs">
+      <DependentUpon>ViewNotifications.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Member\ViewNotifications.aspx.designer.cs">
+      <DependentUpon>ViewNotifications.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

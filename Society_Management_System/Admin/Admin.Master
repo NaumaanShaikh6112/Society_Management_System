@@ -234,7 +234,10 @@
                         <i class="bi bi-journal-check"></i> Audit Logs
                     </asp:HyperLink>
                     <asp:HyperLink ID="Register" runat="server" NavigateUrl="~/Admin/Register.aspx" CssClass="sidebar-link">
-                        <i class="bi bi-journal-check"></i> Register
+                        <i class="bi bi-body-text"></i> Register
+                    </asp:HyperLink>
+                    <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Admin/ManageNotifications.aspx" CssClass="sidebar-link">
+                        <i class="bi bi-bell"></i> Notification
                     </asp:HyperLink>
                 </nav>
 

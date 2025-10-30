@@ -300,7 +300,7 @@
 
         <!-- 🔙 Back to Home -->
         <div class="back-home">
-            <asp:HyperLink ID="lnkBackHome" runat="server" NavigateUrl="~/Default.aspx" CssClass="btn-back">
+            <asp:HyperLink ID="lnkBackHome" runat="server" NavigateUrl="~/Admin/AdminDashboard.aspx" CssClass="btn-back">
                     <i class="fas fa-arrow-left"></i> Back to Home
             </asp:HyperLink>
         </div>

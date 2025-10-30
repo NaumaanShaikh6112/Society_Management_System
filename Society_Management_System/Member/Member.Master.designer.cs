@@ -105,6 +105,24 @@ namespace Society_Management_System.Member
         protected global::System.Web.UI.WebControls.HyperLink lnkAnnouncements;
 
         /// <summary>
+        /// HyperLink1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
+
+        /// <summary>
+        /// lblNotifCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNotifCount;
+
+        /// <summary>
         /// lnkLogout control.
         /// </summary>
         /// <remarks>
