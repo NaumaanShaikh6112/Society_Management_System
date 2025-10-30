@@ -27,7 +27,7 @@ VALUES (1, 1, 'Owner', GETDATE());
 
 -- 🔐 Step 6: Create login credentials for that member
 INSERT INTO users (member_id, username, password_hash)
-VALUES (1, 'admin', 'hashedpasswordhere');
+VALUES (1, 'Noumaan', 'Noumaan123');
 -- 👉 Creates login user for the member
 
 -- ⚙️ Step 7: Create the admin role (run once globally)
@@ -44,3 +44,9 @@ INSERT INTO roles (name) VALUES ('Owner');
 INSERT INTO roles (name) VALUES ('Tenant');
 INSERT INTO roles (name) VALUES ('Security');
 INSERT INTO roles (name) VALUES ('Committee Member');
+
+
+
+SELECT COLUMN_NAME
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'units';
