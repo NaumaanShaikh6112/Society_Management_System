@@ -19,9 +19,6 @@ namespace Society_Management_System.Member
 
                     // ✅ Load all notifications for current member
                     LoadNotifications(userId);
-
-                    // ✅ Mark all unread notifications as read
-                    MarkAsRead(userId);
                 }
                 else
                 {
@@ -59,19 +56,19 @@ namespace Society_Management_System.Member
             }
         }
 
-        private void MarkAsRead(int userId)
-        {
-            using (SqlConnection con = new SqlConnection(cs))
-            {
-                string query = "UPDATE notifications SET is_read = 1 WHERE user_id = @uid AND is_read = 0";
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@uid", userId);
+        //private void MarkAsRead(int userId)
+        //{
+        //    using (SqlConnection con = new SqlConnection(cs))
+        //    {
+        //        string query = "UPDATE notifications SET is_read = 1 WHERE user_id = @uid AND is_read = 0";
+        //        SqlCommand cmd = new SqlCommand(query, con);
+        //        cmd.Parameters.AddWithValue("@uid", userId);
 
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
-            }
-        }
+        //        con.Open();
+        //        cmd.ExecuteNonQuery();
+        //        con.Close();
+        //    }
+        //}
 
         protected void rptNotifications_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
         {
