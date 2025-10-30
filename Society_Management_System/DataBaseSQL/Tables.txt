@@ -316,3 +316,4 @@ GO
 
 
 
+SELECT * FROM units WHERE building_id = 1;

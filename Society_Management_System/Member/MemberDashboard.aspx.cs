@@ -19,11 +19,11 @@ namespace Society_Management_System.Member
             con.Open();
 
             // Session check should be handled by Master page, but double-check is okay
-             if (Session["user_id"] == null || Session["role"]?.ToString() != "user")
-             {
-                 Response.Redirect("~/Account/Login.aspx?msg=invalid_access");
-                 return;
-             }
+            if (Session["user_id"] == null)
+            {
+                Response.Redirect("~/Account/Login.aspx?msg=invalid_access");
+                return;
+            }
 
             if (!IsPostBack)
             {
@@ -37,12 +37,12 @@ namespace Society_Management_System.Member
                 else
                 {
                     // Fallback if master page label wasn't set yet or has default value
-                     LoadMemberNameDirectly(); // Load name directly if needed
+                    LoadMemberNameDirectly(); // Load name directly if needed
                 }
             }
         }
 
-         protected void Page_Unload(object sender, EventArgs e)
+        protected void Page_Unload(object sender, EventArgs e)
         {
             if (con != null && con.State == ConnectionState.Open)
             {
@@ -53,7 +53,7 @@ namespace Society_Management_System.Member
         // Optional: Load name directly if master page label isn't ready
         private void LoadMemberNameDirectly()
         {
-             try
+            try
             {
                 if (Session["user_id"] != null)
                 {
@@ -76,16 +76,15 @@ namespace Society_Management_System.Member
             }
         }
 
-
         private void LoadDashboardStats()
         {
-             if (Session["user_id"] == null) return; // Should not happen due to master page check
+            if (Session["user_id"] == null) return; // Should not happen due to master page check
 
             try
             {
-                 long userId = Convert.ToInt64(Session["user_id"]);
-                 using (SqlCommand cmd = new SqlCommand("sp_GetMemberDashboardStats", con))
-                 {
+                long userId = Convert.ToInt64(Session["user_id"]);
+                using (SqlCommand cmd = new SqlCommand("sp_GetMemberDashboardStats", con))
+                {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@UserID", userId);
 
@@ -98,14 +97,14 @@ namespace Society_Management_System.Member
                             lblActiveBookingsCount.Text = dr["ActiveBookingsCount"].ToString();
                         }
                     }
-                 }
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                 System.Diagnostics.Debug.WriteLine("Error loading member dashboard stats: " + ex.Message);
-                 lblUnpaidBillsCount.Text = "N/A";
-                 lblOpenComplaintsCount.Text = "N/A";
-                 lblActiveBookingsCount.Text = "N/A";
+                System.Diagnostics.Debug.WriteLine("Error loading member dashboard stats: " + ex.Message);
+                lblUnpaidBillsCount.Text = "N/A";
+                lblOpenComplaintsCount.Text = "N/A";
+                lblActiveBookingsCount.Text = "N/A";
             }
         }
     }

@@ -15,7 +15,7 @@ namespace Society_Management_System.Member
             string cnf = ConfigurationManager.ConnectionStrings["societyDB"].ConnectionString;
             con = new SqlConnection(cnf);
 
-            if (Session["user_id"] == null || Session["role"]?.ToString() != "user")
+            if (Session["user_id"] == null )
             {
                 Response.Redirect("~/Account/Login.aspx?msg=invalid_access");
                 return;

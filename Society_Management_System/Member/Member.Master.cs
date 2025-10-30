@@ -20,7 +20,7 @@ namespace Society_Management_System.Member
             con.Open();
 
             // Session Check for Member Role
-            if (Session["user_id"] == null || Session["role"]?.ToString() != "user")
+            if (Session["user_id"] == null )
             {
                 // If session is invalid or not a member, redirect to Login
                 Response.Redirect("~/Account/Login.aspx?msg=session_expired_member");
